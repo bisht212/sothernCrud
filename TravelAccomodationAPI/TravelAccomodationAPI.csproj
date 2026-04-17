@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="BusinessClass\InterFaces\**" />
+    <Compile Remove="ModelClass\ResponseModel\**" />
+    <Compile Remove="Shared\CommonMessage\**" />
+    <Content Remove="BusinessClass\InterFaces\**" />
+    <Content Remove="ModelClass\ResponseModel\**" />
+    <Content Remove="Shared\CommonMessage\**" />
+    <EmbeddedResource Remove="BusinessClass\InterFaces\**" />
+    <EmbeddedResource Remove="ModelClass\ResponseModel\**" />
+    <EmbeddedResource Remove="Shared\CommonMessage\**" />
+    <None Remove="BusinessClass\InterFaces\**" />
+    <None Remove="ModelClass\ResponseModel\**" />
+    <None Remove="Shared\CommonMessage\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.72" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.17.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CustomeMiddleware\" />
+    <Folder Include="Shared\Enums\" />
+    <Folder Include="Shared\CommonMessag\" />
+    <Folder Include="Shared\Enums\" />
+    <Folder Include="Shared\StoredProcedures\" />
+    <Folder Include="Shared\StoredProcedures\" />
+  </ItemGroup>
+
+</Project>
