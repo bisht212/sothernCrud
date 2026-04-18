@@ -7,6 +7,9 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
     {
         public Task<IEnumerable<GetUser>> GetUserList();
 
-        public Task<int> AddUser(AddUser user); 
+        public Task<int> AddUser(AddUser user);
+
+        public Task<int> UpdateUserDetail(int userId , UpdateUser user);
+
     }
 }

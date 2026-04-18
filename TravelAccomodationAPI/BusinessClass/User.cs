@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Linq.Expressions;
 using TravelAccomodationAPI.BusinessClass.Interface;
 using TravelAccomodationAPI.DataAccessClass.InterFaces;
 using TravelAccomodationAPI.ModelClass.RequestModel;
@@ -70,7 +71,41 @@ namespace TravelAccomodationAPI.BusinessClass
             }
         }
 
+        public async Task<int> UpdateUserDetail(int userId, UpdateUser user)
+        {
+            try {
+                int response = 0;
+                var sql = "GetUserDetailById";
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", userId);
+                var userdetail = await _da.GetAsync<GetUser>(sql, parameters);
+                if (userdetail != null)
+                {
+                   
+                    var updateSql = "UpdateUserDetail";
+
+                    var parameters1 = new DynamicParameters();
+                    parameters1.Add("@UserId", userId);
+                    parameters1.Add("@FirstName", user.FirstName);
+                    parameters1.Add("@LastName", user.LastName);
+                    parameters1.Add("@Age", user.Age);
+                    parameters1.Add("@Email", user.Email);
+                    parameters1.Add("@Mobile", user.Mobile);
+                    parameters1.Add("@ModifiedAt", DateTime.Now);
+                    parameters1.Add("@ModifiedBy", "");
+
+                    response = await _da.ExecuteAsync(updateSql, parameters);
+                   
+                }
+                return response;
+            }
+                 catch (Exception ex)
+            {
+                throw new Exception("Failed to add user", ex);
+            }
 
 
+        }
+        }
     }
-}
+

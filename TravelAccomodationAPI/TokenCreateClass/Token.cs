@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TravelAccomodationAPI.ModelClass.ResponseModule;
 using TravelAccomodationAPI.TokenCreateClass.InterFaces;
 
 namespace TravelAccomodationAPI.TokenCreateClass
@@ -13,7 +14,7 @@ namespace TravelAccomodationAPI.TokenCreateClass
         {
                 _config = config;
         }
-        public string CreateToken(TokenModel data)
+        public string CreateToken(UserLoginResponse data)
         {
             var claims = new[]
             {

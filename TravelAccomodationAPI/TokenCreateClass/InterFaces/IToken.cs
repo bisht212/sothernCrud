@@ -1,8 +1,10 @@
-﻿namespace TravelAccomodationAPI.TokenCreateClass.InterFaces
+﻿using TravelAccomodationAPI.ModelClass.ResponseModule;
+
+namespace TravelAccomodationAPI.TokenCreateClass.InterFaces
 {
     public interface IToken
     {
-        public string CreateToken(TokenModel data); 
+        public string CreateToken(UserLoginResponse data); 
         
     }
 }

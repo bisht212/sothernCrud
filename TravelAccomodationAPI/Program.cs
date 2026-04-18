@@ -1,4 +1,5 @@
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using TravelAccomodationAPI.BusinessClass.DependencyInjection;
 using TravelAccomodationAPI.DataAccessClass.DependencyInjection;
@@ -12,8 +13,38 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => {
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Add Authentication Token",
+        //Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Type = SecuritySchemeType.Http, // Changed to Http for better JWT handling
+        BearerFormat = "Jwt",
+        Scheme="bearer"
+    });
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+                Reference = new OpenApiReference{
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme
+
+                }
+        },
+
+            new List<string>()
+
+    } });
+});
 
 builder.Services.AddBusinessServices();
 builder.Services.AddDataAccess();
@@ -36,6 +67,7 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 
+
 var app = builder.Build();
 
 
@@ -50,6 +82,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();

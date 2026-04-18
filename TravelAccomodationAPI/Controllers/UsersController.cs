@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TravelAccomodationAPI.BusinessClass;
@@ -9,8 +10,10 @@ using TravelAccomodationAPI.ModelClass.ResponseModule;
 
 namespace TravelAccomodationAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
 
     {
@@ -59,7 +62,7 @@ namespace TravelAccomodationAPI.Controllers
         }
 
 
-        [HttpPost("CreateUsers")]
+        [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser(AddUser user)
         {
             try
@@ -97,6 +100,47 @@ namespace TravelAccomodationAPI.Controllers
                 });
             }
         }
+
+
+        [HttpPost("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(AddUser user)
+        {
+            try
+            {
+                var result = await _user.AddUser(user);
+
+                if (result > 0)
+                {
+                    var response = new ApiResponse<int>
+                    {
+                        StatusCode = 201,
+                        IsError = false,
+                        Message = "User created successfully",
+                    };
+
+
+                    return Created();
+                }
+
+                return BadRequest(new ApiResponse<int>
+                {
+                    StatusCode = 400,
+                    IsError = true,
+                    Message = "User could not be added."
+                });
+            }
+            catch (Exception ex)
+            {
+                // System failure (e.g., DB is down)
+                return StatusCode(500, new ApiResponse<int>
+                {
+                    StatusCode = 500,
+                    IsError = true,
+                    Message = ex.Message
+                });
+            }
+        }
+
 
     }
 }
