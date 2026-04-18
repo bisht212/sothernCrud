@@ -11,5 +11,6 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
 
         public Task<int> UpdateUserDetail(int userId , UpdateUser user);
 
+        public Task<int> DeleteUserDetail(int userId);
     }
 }

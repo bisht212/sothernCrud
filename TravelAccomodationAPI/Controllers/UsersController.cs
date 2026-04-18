@@ -102,24 +102,24 @@ namespace TravelAccomodationAPI.Controllers
         }
 
 
-        [HttpPost("UpdateUser")]
-        public async Task<IActionResult> UpdateUser(AddUser user)
+        [HttpPut("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(int userId, UpdateUser user)
         {
             try
             {
-                var result = await _user.AddUser(user);
+                var result = await _user.UpdateUserDetail(userId, user);
 
                 if (result > 0)
                 {
                     var response = new ApiResponse<int>
                     {
-                        StatusCode = 201,
+                        StatusCode = 204,
                         IsError = false,
-                        Message = "User created successfully",
+                        Message = "User updates successfully",
                     };
 
 
-                    return Created();
+                    return NoContent();
                 }
 
                 return BadRequest(new ApiResponse<int>
@@ -142,5 +142,43 @@ namespace TravelAccomodationAPI.Controllers
         }
 
 
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteUser(int userId )
+        {
+            try
+            {
+                var result = await _user.DeleteUserDetail(userId);
+
+                if (result > 0)
+                {
+                    var response = new ApiResponse<int>
+                    {
+                        StatusCode = 204,
+                        IsError = false,
+                        Message = "User Delete successfully",
+                    };
+
+
+                    return NoContent();
+                }
+
+                return BadRequest(new ApiResponse<int>
+                {
+                    StatusCode = 400,
+                    IsError = true,
+                    Message = "User could not be Delete."
+                });
+            }
+            catch (Exception ex)
+            {
+                // System failure (e.g., DB is down)
+                return StatusCode(500, new ApiResponse<int>
+                {
+                    StatusCode = 500,
+                    IsError = true,
+                    Message = ex.Message
+                });
+            }
+        }
     }
 }

@@ -92,20 +92,48 @@ namespace TravelAccomodationAPI.BusinessClass
                     parameters1.Add("@Email", user.Email);
                     parameters1.Add("@Mobile", user.Mobile);
                     parameters1.Add("@ModifiedAt", DateTime.Now);
-                    parameters1.Add("@ModifiedBy", "");
+                    parameters1.Add("@ModifiedBy", user.FirstName);
 
-                    response = await _da.ExecuteAsync(updateSql, parameters);
+                    response = await _da.ExecuteAsync(updateSql, parameters1);
                    
                 }
                 return response;
             }
                  catch (Exception ex)
             {
-                throw new Exception("Failed to add user", ex);
+                throw new Exception("Failed to update user", ex);
             }
 
 
         }
+
+        public async Task<int> DeleteUserDetail(int userId)
+        {
+            try
+            {
+                int response = 0;
+                var sql = "GetUserDetailById";
+                var parameters = new DynamicParameters();
+                parameters.Add("@UserId", userId);
+                var userdetail = await _da.GetAsync<GetUser>(sql, parameters);
+                if (userdetail != null)
+                {
+
+                    var updateSql = "DeleteUserDetail";
+
+                    var parameters1 = new DynamicParameters();
+                    parameters1.Add("@UserId", userId);
+                   
+                    response = await _da.ExecuteAsync(updateSql, parameters1);
+
+                }
+                return response;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to update user", ex);
+            }
         }
+    }
     }
 
