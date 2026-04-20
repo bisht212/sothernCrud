@@ -13,7 +13,8 @@ namespace TravelAccomodationAPI.BusinessClass.DependencyInjection
             // Business services (example)
             services.AddScoped<IToken, Token>();
             services.AddScoped<IUsers, User>();
-            services.AddScoped<ILoginUser, LoginUser>(); 
+            services.AddScoped<ILoginUser, LoginUser>();
+            services.AddScoped<IHotelMaster_Business, HotelMaster_Business>(); 
 
             return services;
         }

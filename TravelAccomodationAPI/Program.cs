@@ -1,6 +1,10 @@
+
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Text;
+using System.Threading.RateLimiting;
 using TravelAccomodationAPI.BusinessClass.DependencyInjection;
 using TravelAccomodationAPI.DataAccessClass.DependencyInjection;
 using TravelAccomodationAPI.Shared.DBHelper;
@@ -49,6 +53,7 @@ builder.Services.AddSwaggerGen(options => {
 builder.Services.AddBusinessServices();
 builder.Services.AddDataAccess();
 
+
 //JWT Authentication
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
@@ -66,6 +71,42 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
+// Add rate limiting services
+builder.Services.AddRateLimiter(options =>
+{
+    // 1. Define the status code
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    // 2. Define the custom message/response
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+
+        // You can return plain text or a JSON object
+        await context.HttpContext.Response.WriteAsJsonAsync(new
+        {
+            Message = "Too many requests. Please try again later.",
+            RetryAfter = "10 seconds",
+            StatusCode = 429
+        }, cancellationToken: token);
+    };
+
+    // 3. Your existing policy
+    options.AddFixedWindowLimiter("fixed", opt =>
+    {
+        opt.PermitLimit = 2;
+        opt.Window = TimeSpan.FromSeconds(10);
+        opt.QueueLimit = 0;
+    });
+});
+
+
+builder.Host.UseSerilog((context, services, configuration) =>
+{
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext();
+});
 
 
 var app = builder.Build();
@@ -82,7 +123,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication(); 
+//Rate limit middleware
+app.UseRateLimiter();
+
+app.UseAuthentication();
+
+app.UseRateLimiter();
+
 app.UseAuthorization();
 
 app.MapControllers();

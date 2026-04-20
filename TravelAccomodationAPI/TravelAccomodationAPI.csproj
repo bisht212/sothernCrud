@@ -23,20 +23,22 @@
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.72" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.17.0" />
+    <PackageReference Include="Serilog" Version="4.3.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="CustomeMiddleware\" />
+    <Folder Include="Logs\" />
     <Folder Include="Shared\Enums\" />
     <Folder Include="Shared\CommonMessag\" />
     <Folder Include="Shared\Enums\" />
-    <Folder Include="Shared\StoredProcedures\" />
-    <Folder Include="Shared\StoredProcedures\" />
   </ItemGroup>
 
 </Project>

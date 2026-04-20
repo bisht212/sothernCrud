@@ -69,6 +69,7 @@ namespace TravelAccomodationAPI.BusinessClass
             catch (Exception ex) {
                 throw new Exception("Failed to add user", ex);
             }
+       
         }
 
         public async Task<int> UpdateUserDetail(int userId, UpdateUser user)
