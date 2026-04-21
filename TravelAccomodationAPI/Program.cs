@@ -11,6 +11,7 @@ using TravelAccomodationAPI.Shared.DBHelper;
 using TravelAccomodationAPI.TokenCreateClass;
 using TravelAccomodationAPI.TokenCreateClass.InterFaces;
 
+using TravelAccomodationAPI.CustomeMiddleware;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -100,14 +101,13 @@ builder.Services.AddRateLimiter(options =>
     });
 });
 
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
 
-builder.Host.UseSerilog((context, services, configuration) =>
-{
-    configuration
-        .ReadFrom.Configuration(context.Configuration)
-        .Enrich.FromLogContext();
-});
-
+builder.Host.
+    UseSerilog();
 
 var app = builder.Build();
 
@@ -123,6 +123,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<GlobalExceptionMiddleware>();
 //Rate limit middleware
 app.UseRateLimiter();
 

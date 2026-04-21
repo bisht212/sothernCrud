@@ -8,17 +8,21 @@
 
   <ItemGroup>
     <Compile Remove="BusinessClass\InterFaces\**" />
+    <Compile Remove="Logs\**" />
     <Compile Remove="ModelClass\ResponseModel\**" />
-    <Compile Remove="Shared\CommonMessage\**" />
+    <Compile Remove="Shared\CommonMessag\**" />
     <Content Remove="BusinessClass\InterFaces\**" />
+    <Content Remove="Logs\**" />
     <Content Remove="ModelClass\ResponseModel\**" />
-    <Content Remove="Shared\CommonMessage\**" />
+    <Content Remove="Shared\CommonMessag\**" />
     <EmbeddedResource Remove="BusinessClass\InterFaces\**" />
+    <EmbeddedResource Remove="Logs\**" />
     <EmbeddedResource Remove="ModelClass\ResponseModel\**" />
-    <EmbeddedResource Remove="Shared\CommonMessage\**" />
+    <EmbeddedResource Remove="Shared\CommonMessag\**" />
     <None Remove="BusinessClass\InterFaces\**" />
+    <None Remove="Logs\**" />
     <None Remove="ModelClass\ResponseModel\**" />
-    <None Remove="Shared\CommonMessage\**" />
+    <None Remove="Shared\CommonMessag\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,18 +31,20 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.17.0" />
-    <PackageReference Include="Serilog" Version="4.3.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.17.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CustomeMiddleware\" />
-    <Folder Include="Logs\" />
-    <Folder Include="Shared\Enums\" />
-    <Folder Include="Shared\CommonMessag\" />
-    <Folder Include="Shared\Enums\" />
+    <Folder Include="ErrorLogs\" />
+ <Folder Include="CustomeMiddleware\" />
+ <Folder Include="Shared\Enums\" />
+ <Folder Include="Shared\CommonMessag\" />
+ <Folder Include="Shared\Enums\" />
   </ItemGroup>
 
 </Project>
