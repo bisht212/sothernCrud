@@ -14,37 +14,55 @@ namespace TravelAccomodationAPI.DataAccessClass
             _context = context;
         }
 
-        public async Task<T> GetAsync<T>(
-            string sp, DynamicParameters? parameters)
-        {
-            using var connection = _context.GetConnection();
-            return await connection.QueryFirstOrDefaultAsync<T>(
-                sp, parameters, commandType: CommandType.StoredProcedure);
-        }
+        public async Task<T?> GetAsync<T>(string sp, DynamicParameters? parameters)
+    {
+        using var connection = _context.GetConnection();
+       
 
-        public async Task<IEnumerable<T>> GetListAsync<T>(
-            string sp, DynamicParameters? parameters)
-        {
-            using var connection = _context.GetConnection();
-            return (List<T>)await connection.QueryAsync<T>(
-                sp, parameters, commandType: CommandType.StoredProcedure);
-        }
+        return await connection.QueryFirstOrDefaultAsync<T>(
+            sp,
+            parameters,
+            commandType: CommandType.StoredProcedure,
+            commandTimeout: 30);
+    }
 
-        public async Task<int> ExecuteAsync(
-            string sp, DynamicParameters? parameters)
-        {
-            using var connection = _context.GetConnection();
-            return await connection.ExecuteAsync(
-                sp, parameters, commandType: CommandType.StoredProcedure);
-        }
+    public async Task<IEnumerable<T>> GetListAsync<T>(string sp, DynamicParameters? parameters)
+    {
+        using var connection = _context.GetConnection();
+       
 
-        public async Task<T> ExecuteScalarAsync<T>(
-            string sp, DynamicParameters? parameters)
-        {
-            using var connection = _context.GetConnection();
-            return await connection.ExecuteScalarAsync<T>(
-                sp, parameters, commandType: CommandType.StoredProcedure);
-        }
+        var result = await connection.QueryAsync<T>(
+            sp,
+            parameters,
+            commandType: CommandType.StoredProcedure,
+            commandTimeout: 30);
+
+        return result.ToList();
+    }
+
+    public async Task<int> ExecuteAsync(string sp, DynamicParameters? parameters)
+    {
+        using var connection = _context.GetConnection();
+       
+
+        return await connection.ExecuteAsync(
+            sp,
+            parameters,
+            commandType: CommandType.StoredProcedure,
+            commandTimeout: 30);
+    }
+
+    public async Task<T> ExecuteScalarAsync<T>(string sp, DynamicParameters? parameters)
+    {
+        using var connection = _context.GetConnection();
+       
+
+        return await connection.ExecuteScalarAsync<T>(
+            sp,
+            parameters,
+            commandType: CommandType.StoredProcedure,
+            commandTimeout: 30);
+    }
 
     }
 
