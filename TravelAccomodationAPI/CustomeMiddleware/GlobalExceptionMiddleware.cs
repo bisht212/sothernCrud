@@ -64,7 +64,7 @@ namespace TravelAccomodationAPI.CustomeMiddleware
                     break;
             }
 
-            // 🔥 FULL LOG (Everything you asked)
+            // FULL LOG 
             Log.Error(exception,
                 "Error at {Path} | Controller {Controller} | Action {Action} | Method {Method} | Query {Query} | TraceId {TraceId}",
                 context.Request.Path,
@@ -90,5 +90,7 @@ namespace TravelAccomodationAPI.CustomeMiddleware
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));
 
         }
+   
+    
     }
 }

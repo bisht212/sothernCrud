@@ -24,103 +24,131 @@ namespace TravelAccomodationAPI.Controllers
             _logger = logger;
         }
 
+
         /// <summary>
         /// Get Hotel Master details
         /// </summary>
-        /// <param name="request">Hotel filter request payload</param>
-        /// <returns>It  returns response  is Hotel Id , Hotel code, hotel name (HotelMasterResponse)</returns>
         [HttpGet("Get_Hotel_Master_List")]
         [EnableRateLimiting("fixed")]
         public async Task<IActionResult> Get_Hotel_Master_List([FromQuery] HotelFilterRequest hotelFilter)
         {
-            try
+            var result = await _hotelMaster.GetHotelMasterList(hotelFilter);
+
+            return Ok(new ApiResponse<IEnumerable<HotelMasterResponse>>
             {
-                var result = await _hotelMaster.GetHotelMasterList(hotelFilter);
-
-
-                var response = new ApiResponse<IEnumerable<HotelMasterResponse>>
-                {
-                    StatusCode = 200,
-                    IsError = false,
-                    Message = "Success",
-                    Data = result
-                };
-
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                // Use the same generic type for the error response
-
-
-                _logger.LogError(
-                           ex,
-                           "Error occurred in Get_Hotel_Master_List for request: {@HotelFilter}",
-                           hotelFilter);
-
-                var errorResponse = new ApiResponse<HotelMasterResponse>
-                {
-                    StatusCode = 500,
-                    IsError = true,
-                    Message = ex.Message, // Or "An internal error occurred"
-                    Data = null
-                };
-
-                return StatusCode(500, errorResponse);
-            }
-
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = result
+            });
         }
-
 
         /// <summary>
         /// Add Hotel Master details
         /// </summary>
-        /// <param name="request">Hotel master request payload</param>
-        /// <returns>Hotel Id and Hotel Code</returns>
-
         [HttpPost("AddHotel")]
         public async Task<IActionResult> AddHotel([FromBody] AddHotelMasterRequest hotelrequest)
         {
-            try
+            var result = await _hotelMaster.AddhotelsMaster(hotelrequest);
+
+            return Ok(new ApiResponse<AddHotelMasterResponse>
             {
-                AddHotelMasterResponse result = await _hotelMaster.AddhotelsMaster(hotelrequest);
+                StatusCode = 201,
+                IsError = false,
+                Message = "Hotel Added successfully",
+                Data = result
+            });
+        }
 
-                if (result.Hotel_Id>0)
-                {
-                    var response = new ApiResponse<AddHotelMasterResponse>
-                    {
-                        StatusCode = 201,
-                        IsError = false,
-                        Message = "Hotel Added successfully",
-                        Data = result
-                    };
+        /// <summary>
+        /// Get All List Constant veg non veg
+        /// </summary>
 
+        [HttpGet("Get_Veg_Non_Veg")]
+        public async Task<IActionResult> GetAll_Veg_Non_Veg() {
 
-                    return Ok(response);
-                }
-                else {
-                    return BadRequest(new ApiResponse<AddHotelMasterResponse>
-                    {
-                        StatusCode = 400,
-                        IsError = true,
-                        Message = result.Message
-                    });
-                }
-                  
-            }
-            catch (Exception ex)
+            var result = await _hotelMaster.GetAll_Veg_Non_Veg();
+
+            return Ok(new ApiResponse<IEnumerable<GetVeg_NonVegResponse>>
             {
-                // System failure (e.g., DB is down)
-                return StatusCode(500, new ApiResponse<int>
-                {
-                    StatusCode = 500,
-                    IsError = true,
-                    Message = ex.Message
-                });
-            }
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = result
+            });
         }
 
 
-    }
+        /// <summary>
+        /// Get Constant veg non veg by there Id
+        /// <request>vegnonvegId</request>
+        /// </summary>
 
+        [HttpGet("Get_Veg_Non_Veg/{Id}")]
+        public async Task<IActionResult> Get_Veg_Non_Veg(int Id) {
+
+            var result = await _hotelMaster.Get_Veg_Non_Veg(Id);
+
+            return Ok(new ApiResponse<GetVeg_NonVegResponse>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = result
+            });
+        }
+
+
+        /// <summary>
+        /// Get All List Cuisines
+        /// </summary>
+        [HttpGet("GetAll_Cuisine")]
+        public async Task<IActionResult> GetAll_Cuisine()
+        {
+
+            IEnumerable<GetCuisine> result = await _hotelMaster.GetAll_Cuisine();
+
+            return Ok(new ApiResponse<IEnumerable<GetCuisine>>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = result
+            });
+        }
+
+        /// <summary>
+        /// Get Constant veg non veg by there Id
+        /// <request>cuisineId</request>
+        /// </summary>
+        [HttpGet("Get_Cuisine/{Id}")]
+        public async Task<IActionResult> Get_Cuisine(int Id)
+        {
+
+            GetCuisine result = await _hotelMaster.Get_Cuisine(Id);
+
+            return Ok(new ApiResponse<GetCuisine>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = result
+            });
+        }
+
+        [HttpPost("Add_Resturant_On_Property")]
+        public async Task<IActionResult> AddRestaurantsOnProperty(AddRestaurantsOnPropertyRequest resturantRequest) {
+
+            int result = await _hotelMaster.AddrestaurantsOnProperty(resturantRequest);
+
+            return Ok(new ApiResponse<string>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Success",
+                Data = "Resturant propert Added"
+            });
+
+        }
+    }
 }

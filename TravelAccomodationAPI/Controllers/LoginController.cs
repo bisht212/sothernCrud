@@ -17,32 +17,19 @@ namespace TravelAccomodationAPI.Controllers
             _loginUser = loginUser; 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login(AuthenticationRequest user) {
 
-            try {
-                string token = await _loginUser.Login(user);
-                var response = new ApiResponse<string>
-                {
-                    StatusCode = 201,
-                    IsError = false,
-                    Message =  "Token",
-                    Data = token
-                };
-                return Ok(response);
-            }
-            catch(Exception ex) 
-            
+        [HttpPost]
+        public async Task<IActionResult> Login(AuthenticationRequest user)
+        {
+            var token = await _loginUser.Login(user);
+
+            return Ok(new ApiResponse<string>
             {
-                // System failure (e.g., DB is down)
-                return StatusCode(500, new ApiResponse<int>
-                {
-                    StatusCode = 500,
-                    IsError = true,
-                    Message = ex.Message
-                });
-            }
-          
+                StatusCode = 200,
+                IsError = false,
+                Message = "Token generated successfully",
+                Data = token
+            });
         }
     }
 }

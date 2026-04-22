@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity.Data;
 using TravelAccomodationAPI.BusinessClass.Interface;
 using TravelAccomodationAPI.DataAccessClass.InterFaces;
+using TravelAccomodationAPI.ModelClass;
 using TravelAccomodationAPI.ModelClass.RequestModel;
 using TravelAccomodationAPI.ModelClass.ResponseModule;
 using TravelAccomodationAPI.Shared.CommonMethods;
@@ -24,30 +25,31 @@ namespace TravelAccomodationAPI.BusinessClass
         public async Task<string> Login(AuthenticationRequest auth)
         {
             string sql = "AuthenticateUser";
+
             var parameters = new DynamicParameters();
             parameters.Add("@Email", auth.Email);
-            UserLoginResponse user = await _da.GetAsync<UserLoginResponse>(sql,parameters);
 
-            if (user != null)
+            var user = await _da.GetAsync<UserLoginResponse>(sql, parameters);
+
+            if (user == null)
             {
-                bool isUserTrue = paaswordHashing.VerifyPassword(auth.Password, user.PasswordHash, user.PasswordSalt);
-                if (isUserTrue)
-                {
-                    string token = _token.CreateToken(user);
-                    return token;
-                }
-
-                else
-                {
-                    return "Unauthorised";
-                }
-
+                throw new ApiException("Invalid email or password", 401);
             }
-            else {
-                return "Unauthorised";
-            }
-          //  throw new Exception();
 
+            bool isValid = paaswordHashing.VerifyPassword(
+                auth.Password,
+                user.PasswordHash,
+                user.PasswordSalt);
+
+            if (!isValid)
+            {
+                throw new ApiException("Invalid email or password", 401);
+            }
+
+            string token = _token.CreateToken(user);
+
+            return token;
         }
+
     }
 }

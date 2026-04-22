@@ -1,17 +1,20 @@
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Reflection;
 using System.Text;
 using System.Threading.RateLimiting;
 using TravelAccomodationAPI.BusinessClass.DependencyInjection;
+using TravelAccomodationAPI.CustomeMiddleware;
+using TravelAccomodationAPI.CustomFilters;
 using TravelAccomodationAPI.DataAccessClass.DependencyInjection;
 using TravelAccomodationAPI.Shared.DBHelper;
 using TravelAccomodationAPI.TokenCreateClass;
 using TravelAccomodationAPI.TokenCreateClass.InterFaces;
-
-using TravelAccomodationAPI.CustomeMiddleware;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -109,6 +112,23 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.
     UseSerilog();
 
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
+builder.Services.AddScoped<ValidationFilter>();
+
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationFilter>(); // GLOBAL
+});
+
+//builder.Services.AddControllers()
+//            .AddFluentValidation(v =>
+//            {
+//                v.ImplicitlyValidateChildProperties = true;
+//                v.ImplicitlyValidateRootCollectionElements = true;
+//                v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+//            });
+
 var app = builder.Build();
 
 
@@ -128,8 +148,6 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseRateLimiter();
 
 app.UseAuthentication();
-
-app.UseRateLimiter();
 
 app.UseAuthorization();
 

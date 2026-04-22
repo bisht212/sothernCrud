@@ -94,5 +94,67 @@ namespace TravelAccomodationAPI.BusinessClass
 
             return response;
         }
+
+        public async Task<IEnumerable<GetVeg_NonVegResponse>> GetAll_Veg_Non_Veg()
+        {
+            var result = await _da.GetListAsync<GetVeg_NonVegResponse>(
+                Stored_Procedures.GET_ALL_VEG_NON_VEG);
+
+            return result;
+        }
+
+        public async Task<GetVeg_NonVegResponse> Get_Veg_Non_Veg(int Id)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@veg_id", Id);
+            var result = await _da.GetAsync<GetVeg_NonVegResponse>(
+                  Stored_Procedures.GET_VEG_NON_VEG, parameters);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<GetCuisine>> GetAll_Cuisine()
+        {
+            var result = await _da.GetListAsync<GetCuisine>(
+                 Stored_Procedures.GET_ALL_CUISINE);
+
+            return result;
+        }
+
+        public async Task<GetCuisine> Get_Cuisine(int Id)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@cuisine_id", Id);
+            var result = await _da.GetAsync<GetCuisine>(
+                  Stored_Procedures.GET_VEG_NON_VEG, parameters);
+
+            return result;
+        }
+
+        public async Task<int> AddrestaurantsOnProperty(AddRestaurantsOnPropertyRequest resturantRequest)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@hotel_id", resturantRequest.Hotel_Id);
+            parameters.Add("@resta_name", resturantRequest.Resta_Name);
+            parameters.Add("@veg_id", resturantRequest.Veg_Id);
+            parameters.Add("@cuisine_id", resturantRequest.Cuisine_Id);
+            parameters.Add("@no_of_covers", resturantRequest.No_of_covers);
+            parameters.Add("@in_room_dining_facility", resturantRequest.In_room_dining_facility);
+
+            var response = await _da.ExecuteAsync(
+               Stored_Procedures.ADD_RESTURANTPROPERTY,
+               parameters);
+
+            if (response>0)
+            {
+                throw new ApiException(ErrorMessage.RESTURANT_PROPERTY_ADD_FAILES, Convert.ToInt32(StatusCode.Badrequest));
+            }
+
+            return response;
+
+        }
     }
 }
