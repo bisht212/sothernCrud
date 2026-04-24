@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data;
 
 namespace TravelAccomodationAPI.DataAccessClass.InterFaces
 {
@@ -11,10 +12,16 @@ namespace TravelAccomodationAPI.DataAccessClass.InterFaces
             string sp, DynamicParameters parameters = null);
 
         Task<int> ExecuteAsync(
-            string sp, DynamicParameters parameters = null);
+            string sp, DynamicParameters parameters = null, IDbTransaction transaction = null);
 
         Task<T> ExecuteScalarAsync<T>(
-            string sp, DynamicParameters parameters = null);
+            string sp, DynamicParameters parameters = null, IDbTransaction transaction = null);
+
+        public  Task BulkInsertAsync<T>(
+                string storedProcedure,
+                string tvpParameterName,
+                string tvpTypeName,
+                IEnumerable<T> data);
 
     }
 }

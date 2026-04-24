@@ -39,8 +39,7 @@
   <ItemGroup>
  <Folder Include="CustomeMiddleware\" />
  <Folder Include="ErrorLogs\" />
- <Folder Include="Shared\Enums\" />
- <Folder Include="Shared\Enums\" />
+ <Folder Include="FileStorage\Files\" />
   </ItemGroup>
 
 </Project>

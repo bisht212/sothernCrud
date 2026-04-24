@@ -7,8 +7,10 @@ using TravelAccomodationAPI.ModelClass.RequestModel;
 using TravelAccomodationAPI.ModelClass.ResponseModule;
 using TravelAccomodationAPI.Shared.CommonMessage;
 using TravelAccomodationAPI.Shared.CommonMethods;
+using TravelAccomodationAPI.Shared.DBHelper;
 using TravelAccomodationAPI.Shared.Enums;
 using TravelAccomodationAPI.Shared.StoredProcedures;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TravelAccomodationAPI.BusinessClass
 {
@@ -16,10 +18,11 @@ namespace TravelAccomodationAPI.BusinessClass
     {
 
         private readonly IDataAccess _da;
-
-        public HotelMaster_Business(IDataAccess da)
+        private readonly DbContext _context;
+        public HotelMaster_Business(IDataAccess da, DbContext context)
         {
-            _da = da; 
+            _da = da;
+            _context = context;
         }
 
         public async Task<IEnumerable<HotelMasterResponse>> GetHotelMasterList(HotelFilterRequest hotelFilter)
@@ -133,28 +136,59 @@ namespace TravelAccomodationAPI.BusinessClass
             return result;
         }
 
-        public async Task<int> AddrestaurantsOnProperty(AddRestaurantsOnPropertyRequest resturantRequest)
+        public async Task InsertRestaurantsWithFiles(List<AddRestaurantsOnPropertyRequest> request)
         {
-            var parameters = new DynamicParameters();
+            //using var connection = _context.GetConnection();
+            //using var transaction = connection.BeginTransaction();
 
-            parameters.Add("@hotel_id", resturantRequest.Hotel_Id);
-            parameters.Add("@resta_name", resturantRequest.Resta_Name);
-            parameters.Add("@veg_id", resturantRequest.Veg_Id);
-            parameters.Add("@cuisine_id", resturantRequest.Cuisine_Id);
-            parameters.Add("@no_of_covers", resturantRequest.No_of_covers);
-            parameters.Add("@in_room_dining_facility", resturantRequest.In_room_dining_facility);
+            //try
+            //{
+                foreach (var item in request)
+                {
+                    var param = new DynamicParameters();
+                    param.Add("@Hotel_Id", item.Hotel_Id);
+                    param.Add("@Resta_Name", item.Resta_Name);
+                    param.Add("@Veg_Id", item.Veg_Id);
+                    param.Add("@Cuisine_Id", item.Cuisine_Id);
+                    param.Add("@No_of_covers", item.No_of_covers);
+                    param.Add("@In_room_dining_facility", item.In_room_dining_facility);
 
-            var response = await _da.ExecuteAsync(
-               Stored_Procedures.ADD_RESTURANTPROPERTY,
-               parameters);
+                    var restaId = await _da.ExecuteScalarAsync<int>(
+                        "usp_Bulk_RestaurantsOnProperty_Insert",
+                        param
+                    );
+                if(restaId > 0) {
+                    if (item.ResturantImage != null && item.ResturantImage.Any())
+                    {
+                        foreach (var file in item.ResturantImage)
+                        {
+                            var filePath = await FileUploadCommon.UploadFileAsync(file);
 
-            if (response>0)
-            {
-                throw new ApiException(ErrorMessage.RESTURANT_PROPERTY_ADD_FAILES, Convert.ToInt32(StatusCode.Badrequest));
-            }
+                            var fileParam = new DynamicParameters();
+                            fileParam.Add("@HotelId", item.Hotel_Id);
+                            fileParam.Add("@RestaurantId", restaId);
+                            fileParam.Add("@FilePath", filePath);
+                            fileParam.Add("@CreatedBy", "Admin");
 
-            return response;
+                            await _da.ExecuteAsync(
+                                "sp_InsertFile",
+                                fileParam
+                            );
+                        }
+                    }
+                }
 
+                 
+                }
+
+            //    transaction.Commit();
+            //}
+            //catch
+            //{
+            //    transaction.Rollback();
+            //    throw;
+            //}
         }
+
     }
 }

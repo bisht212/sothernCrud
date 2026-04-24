@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using Microsoft.Data.SqlClient;
 using System.Data;
 using TravelAccomodationAPI.DataAccessClass.InterFaces;
+using TravelAccomodationAPI.Shared.CommonMethods;
 using TravelAccomodationAPI.Shared.DBHelper;
 
 namespace TravelAccomodationAPI.DataAccessClass
@@ -40,7 +42,7 @@ namespace TravelAccomodationAPI.DataAccessClass
         return result.ToList();
     }
 
-    public async Task<int> ExecuteAsync(string sp, DynamicParameters? parameters)
+    public async Task<int> ExecuteAsync(string sp, DynamicParameters? parameters,  IDbTransaction transaction = null)
     {
         using var connection = _context.GetConnection();
        
@@ -48,21 +50,43 @@ namespace TravelAccomodationAPI.DataAccessClass
         return await connection.ExecuteAsync(
             sp,
             parameters,
+            transaction,
             commandType: CommandType.StoredProcedure,
             commandTimeout: 30);
     }
 
-    public async Task<T> ExecuteScalarAsync<T>(string sp, DynamicParameters? parameters)
-    {
-        using var connection = _context.GetConnection();
+    public async Task<T> ExecuteScalarAsync<T>(string sp, DynamicParameters? parameters ,IDbTransaction transaction = null)
+            {
+                using var connection = _context.GetConnection();
        
 
-        return await connection.ExecuteScalarAsync<T>(
-            sp,
-            parameters,
-            commandType: CommandType.StoredProcedure,
-            commandTimeout: 30);
-    }
+                return await connection.ExecuteScalarAsync<T>(
+                    sp,
+                    parameters,
+                    transaction,
+                    commandType: CommandType.StoredProcedure,
+                    commandTimeout: 30);
+            }
+
+        public async Task BulkInsertAsync<T>(
+                string storedProcedure,
+                string tvpParameterName,
+                string tvpTypeName,
+                IEnumerable<T> data)
+        {
+            var dt = FileUploadCommon.ToDataTable(data);
+            using var connection = _context.GetConnection();
+
+
+            var parameters = new DynamicParameters();
+            parameters.Add(tvpParameterName, dt.AsTableValuedParameter(tvpTypeName));
+
+            await connection.ExecuteAsync(
+                storedProcedure,
+                parameters,
+                commandType: CommandType.StoredProcedure
+            );
+        }
 
     }
 

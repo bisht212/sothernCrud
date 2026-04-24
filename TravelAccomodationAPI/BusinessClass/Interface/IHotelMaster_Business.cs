@@ -16,6 +16,8 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
 
         public Task<GetCuisine> Get_Cuisine(int Id);
 
-        public Task<int> AddrestaurantsOnProperty(AddRestaurantsOnPropertyRequest resturantRequest);
+        // public Task<int> AddrestaurantsOnProperty(List<AddRestaurantsOnPropertyRequest> resturantRequest);
+
+        public Task InsertRestaurantsWithFiles(List<AddRestaurantsOnPropertyRequest> request);
     }
 }

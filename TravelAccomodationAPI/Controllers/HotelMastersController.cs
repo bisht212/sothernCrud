@@ -136,19 +136,28 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-        [HttpPost("Add_Resturant_On_Property")]
-        public async Task<IActionResult> AddRestaurantsOnProperty(AddRestaurantsOnPropertyRequest resturantRequest) {
+        [HttpPost("add-restaurant-on-property")]
+        public async Task<IActionResult> AddRestaurantsOnProperty(
+        [FromForm] List<AddRestaurantsOnPropertyRequest> request)
+        {
+            if (request == null || !request.Any())
+            {
+                return BadRequest(new ApiResponse<string>
+                {
+                    StatusCode = 400,
+                    IsError = true,
+                    Message = "Request data is empty"
+                });
+            }
 
-            int result = await _hotelMaster.AddrestaurantsOnProperty(resturantRequest);
+            await _hotelMaster.InsertRestaurantsWithFiles(request);
 
-            return Ok(new ApiResponse<string>
+            return StatusCode(201, new ApiResponse<string>
             {
                 StatusCode = 201,
                 IsError = false,
-                Message = "Success",
-                Data = "Resturant propert Added"
+                Message = "Restaurant property added successfully"
             });
-
         }
     }
 }
