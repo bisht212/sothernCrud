@@ -1,4 +1,3 @@
-
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.RateLimiting;
@@ -15,142 +14,125 @@ using TravelAccomodationAPI.DataAccessClass.DependencyInjection;
 using TravelAccomodationAPI.Shared.DBHelper;
 using TravelAccomodationAPI.TokenCreateClass;
 using TravelAccomodationAPI.TokenCreateClass.InterFaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+try
+{
+    // Add services to the container.
+    builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
-builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
-builder.Services.AddSwaggerGen(options => {
-    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    builder.Services.AddSwaggerGen(options =>
     {
-        Name = "Authorization",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Add Authentication Token",
-        //Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
-        Type = SecuritySchemeType.Http, // Changed to Http for better JWT handling
-        BearerFormat = "Jwt",
-        Scheme="bearer"
-    });
-    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
-    {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
-            new OpenApiSecurityScheme
+            Name = "Authorization",
+            In = ParameterLocation.Header,
+            Description = "Add Authentication Token",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "Jwt",
+            Scheme = "bearer"
+        });
+
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
             {
-                Name = "Bearer",
-                In = ParameterLocation.Header,
-                Reference = new OpenApiReference{
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
                         Id = "Bearer",
                         Type = ReferenceType.SecurityScheme
+                    }
+                },
+                new List<string>()
+            }
+        });
+    });
 
-                }
-        },
+    builder.Services.AddBusinessServices();
+    builder.Services.AddDataAccess();
 
-            new List<string>()
-
-    } });
-});
-
-builder.Services.AddBusinessServices();
-builder.Services.AddDataAccess();
-
-
-//JWT Authentication
-builder.Services.AddAuthentication("Bearer")
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
+    // JWT Authentication
+    builder.Services.AddAuthentication("Bearer")
+        .AddJwtBearer(options =>
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            };
+        });
+
+    // Rate Limiting
+    builder.Services.AddRateLimiter(options =>
+    {
+        options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+        options.OnRejected = async (context, token) =>
+        {
+            context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+            await context.HttpContext.Response.WriteAsJsonAsync(new
+            {
+                Message = "Too many requests. Please try again later.",
+                RetryAfter = "10 seconds",
+                StatusCode = 429
+            }, cancellationToken: token);
         };
-    });
 
-// Add rate limiting services
-builder.Services.AddRateLimiter(options =>
-{
-    // 1. Define the status code
-    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-
-    // 2. Define the custom message/response
-    options.OnRejected = async (context, token) =>
-    {
-        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-
-        // You can return plain text or a JSON object
-        await context.HttpContext.Response.WriteAsJsonAsync(new
+        options.AddFixedWindowLimiter("fixed", opt =>
         {
-            Message = "Too many requests. Please try again later.",
-            RetryAfter = "10 seconds",
-            StatusCode = 429
-        }, cancellationToken: token);
-    };
-
-    // 3. Your existing policy
-    options.AddFixedWindowLimiter("fixed", opt =>
-    {
-        opt.PermitLimit = 2;
-        opt.Window = TimeSpan.FromSeconds(10);
-        opt.QueueLimit = 0;
+            opt.PermitLimit = 2;
+            opt.Window = TimeSpan.FromSeconds(10);
+            opt.QueueLimit = 0;
+        });
     });
-});
 
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
+    Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(builder.Configuration)
+        .Enrich.FromLogContext()
+        .CreateLogger();
 
-builder.Host.
-    UseSerilog();
+    builder.Host.UseSerilog();
 
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+    builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+    builder.Services.AddScoped<ValidationFilter>();
 
-builder.Services.AddScoped<ValidationFilter>();
+    builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add<ValidationFilter>(); // GLOBAL
+    });
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<ValidationFilter>(); // GLOBAL
-});
+    var app = builder.Build();
 
-//builder.Services.AddControllers()
-//            .AddFluentValidation(v =>
-//            {
-//                v.ImplicitlyValidateChildProperties = true;
-//                v.ImplicitlyValidateRootCollectionElements = true;
-//                v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-//            });
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
-var app = builder.Build();
+    app.UseHttpsRedirection();
+    app.UseMiddleware<GlobalExceptionMiddleware>();
+    app.UseRateLimiter();
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.MapControllers();
 
-
-
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.Run();
 }
-
-app.UseHttpsRedirection();
-
-app.UseMiddleware<GlobalExceptionMiddleware>();
-//Rate limit middleware
-app.UseRateLimiter();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    // Log the exception and exit gracefully
+    Log.Fatal(ex, "Application startup failed");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using TravelAccomodationAPI.BusinessClass;
@@ -136,7 +137,7 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-        [HttpPost("add-restaurant-on-property")]
+        [HttpPost("add_restaurant_on_property")]
         public async Task<IActionResult> AddRestaurantsOnProperty(
         [FromForm] List<AddRestaurantsOnPropertyRequest> request)
         {
@@ -158,6 +159,81 @@ namespace TravelAccomodationAPI.Controllers
                 IsError = false,
                 Message = "Restaurant property added successfully"
             });
+        }
+
+
+
+        [HttpPut("update_restaurant_on_property/{Id}")]
+        public async Task<IActionResult> UpdateRestaurantsOnProperty(int Id,
+        [FromForm] AddRestaurantsOnPropertyRequest request)
+        {
+            if (request == null )
+            {
+                return BadRequest(new ApiResponse<dynamic>
+                {
+                    StatusCode = 400,
+                    IsError = true,
+                    Message = "Request data is empty"
+                });
+            }
+
+            await _hotelMaster.UpdateRestaurantsWithFiles(Id, request);
+
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Restaurant property updated successfully"
+            });
+        }
+
+        [HttpDelete("delete_restaurant_on_property/{Id}")]
+        public async Task<IActionResult> DeleteRestaurantsOnProperty(int Id)
+        {
+          var response =   await _hotelMaster.DeleteRestaurant(Id);
+
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = response.Message
+            });
+        }
+
+        [HttpPost("add_hotel_contacts")]
+        public async Task<IActionResult> Addhotelscontacts(List<AddHotelContacts> hotelContacts) {
+
+           
+             await _hotelMaster.AddHotelContacts(hotelContacts);
+
+            return Ok(new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Success",
+              
+            });
+
+
+        }
+
+
+        [HttpPut("update_hotel_contacts/{contactId}")]
+        public async Task<IActionResult> Updatehotelscontacts(int contactId, AddHotelContacts hotelContacts)
+        {
+
+
+            await _hotelMaster.UpdateHotelContacts(contactId,hotelContacts);
+
+            return Ok(new ApiResponse<dynamic>
+            {
+                StatusCode = 204,
+                IsError = false,
+                Message = "Success",
+
+            });
+
+
         }
     }
 }

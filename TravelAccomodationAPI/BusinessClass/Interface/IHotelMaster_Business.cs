@@ -19,5 +19,12 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
         // public Task<int> AddrestaurantsOnProperty(List<AddRestaurantsOnPropertyRequest> resturantRequest);
 
         public Task InsertRestaurantsWithFiles(List<AddRestaurantsOnPropertyRequest> request);
+
+        public Task UpdateRestaurantsWithFiles(int rest_Id, AddRestaurantsOnPropertyRequest request);
+
+        public Task<dynamic> DeleteRestaurant(int rest_Id);
+        public Task AddHotelContacts(List<AddHotelContacts> hotelContacts);
+
+        public Task UpdateHotelContacts(int ContactId, AddHotelContacts hotelContacts);
     }
 }

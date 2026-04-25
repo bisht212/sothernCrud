@@ -1,5 +1,7 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.SignalR.Protocol;
 using System.Data;
+using System.Transactions;
 using TravelAccomodationAPI.BusinessClass.Interface;
 using TravelAccomodationAPI.DataAccessClass.InterFaces;
 using TravelAccomodationAPI.ModelClass;
@@ -92,7 +94,7 @@ namespace TravelAccomodationAPI.BusinessClass
 
             if (response == null)
             {
-                throw new ApiException(ErrorMessage.HOTEL_ADD_FAILES , Convert.ToInt32(StatusCode.Badrequest));
+                throw new ApiException(ErrorMessage.HOTEL_ADD_FAILES, Convert.ToInt32(StatusCode.Badrequest));
             }
 
             return response;
@@ -136,59 +138,304 @@ namespace TravelAccomodationAPI.BusinessClass
             return result;
         }
 
+        //public async Task InsertRestaurantsWithFiles(List<AddRestaurantsOnPropertyRequest> request)
+        //{
+        //    //using var connection = _context.GetConnection();
+        //    //using var transaction = connection.BeginTransaction();
+
+        //    //try
+        //    //{
+        //        foreach (var item in request)
+        //        {
+        //            var param = new DynamicParameters();
+        //            param.Add("@Hotel_Id", item.Hotel_Id);
+        //            param.Add("@Resta_Name", item.Resta_Name);
+        //            param.Add("@Veg_Id", item.Veg_Id);
+        //            param.Add("@Cuisine_Id", item.Cuisine_Id);
+        //            param.Add("@No_of_covers", item.No_of_covers);
+        //            param.Add("@In_room_dining_facility", item.In_room_dining_facility);
+
+        //            var restaId = await _da.ExecuteScalarAsync<int>(
+        //                Stored_Procedures.ADD_BULK_RESTURANTPROPERTY,
+        //                param
+        //            );
+        //        if(restaId > 0) {
+        //            if (item.ResturantImage != null && item.ResturantImage.Any())
+        //            {
+        //                foreach (var file in item.ResturantImage)
+        //                {
+        //                    var filePath = await FileUploadCommon.UploadFileAsync(file);
+
+        //                    var fileParam = new DynamicParameters();
+        //                    fileParam.Add("@HotelId", item.Hotel_Id);
+        //                    fileParam.Add("@RestaurantId", restaId);
+        //                    fileParam.Add("@FilePath", filePath);
+        //                    fileParam.Add("@CreatedBy", "Admin");
+
+        //                    await _da.ExecuteAsync(
+        //                        Stored_Procedures.UPLOAD_FILE_SP,
+        //                        fileParam
+        //                    );
+        //                }
+        //            }
+        //        }
+
+
+        //        }
+
+        //    //    transaction.Commit();
+        //    //}
+        //    //catch
+        //    //{
+        //    //    transaction.Rollback();
+        //    //    throw;
+        //    //}
+        //}
+
+        // Optimize this using TVP future
         public async Task InsertRestaurantsWithFiles(List<AddRestaurantsOnPropertyRequest> request)
         {
-            //using var connection = _context.GetConnection();
-            //using var transaction = connection.BeginTransaction();
+            using (var connection = _context.GetConnection())
+            {
+                connection.Open();
 
-            //try
-            //{
-                foreach (var item in request)
+                using (var transaction = connection.BeginTransaction())
                 {
-                    var param = new DynamicParameters();
-                    param.Add("@Hotel_Id", item.Hotel_Id);
-                    param.Add("@Resta_Name", item.Resta_Name);
-                    param.Add("@Veg_Id", item.Veg_Id);
-                    param.Add("@Cuisine_Id", item.Cuisine_Id);
-                    param.Add("@No_of_covers", item.No_of_covers);
-                    param.Add("@In_room_dining_facility", item.In_room_dining_facility);
-
-                    var restaId = await _da.ExecuteScalarAsync<int>(
-                        "usp_Bulk_RestaurantsOnProperty_Insert",
-                        param
-                    );
-                if(restaId > 0) {
-                    if (item.ResturantImage != null && item.ResturantImage.Any())
+                    try
                     {
-                        foreach (var file in item.ResturantImage)
+                        foreach (var item in request)
                         {
-                            var filePath = await FileUploadCommon.UploadFileAsync(file);
+                            var param = new DynamicParameters();
+                            param.Add("@Hotel_Id", item.Hotel_Id);
+                            param.Add("@Resta_Name", item.Resta_Name);
+                            param.Add("@Veg_Id", item.Veg_Id);
+                            param.Add("@Cuisine_Id", item.Cuisine_Id);
+                            param.Add("@No_of_covers", item.No_of_covers);
+                            param.Add("@In_room_dining_facility", item.In_room_dining_facility);
 
-                            var fileParam = new DynamicParameters();
-                            fileParam.Add("@HotelId", item.Hotel_Id);
-                            fileParam.Add("@RestaurantId", restaId);
-                            fileParam.Add("@FilePath", filePath);
-                            fileParam.Add("@CreatedBy", "Admin");
-
-                            await _da.ExecuteAsync(
-                                "sp_InsertFile",
-                                fileParam
+                            var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
+                                Stored_Procedures.ADD_BULK_RESTURANTPROPERTY,
+                                param,
+                                transaction,
+                                commandType: CommandType.StoredProcedure
                             );
+
+                            int restaId = result.Status;
+
+                            if (restaId <= 0)
+                                throw new ApiException("Restaurant already exists", Convert.ToInt32(StatusCode.Conflict));
+
+                            // Insert Files
+                            if (item.ResturantImage != null && item.ResturantImage.Any())
+                            {
+                                foreach (var file in item.ResturantImage)
+                                {
+                                    var filePath = await FileUploadCommon.UploadFileAsync(file);
+
+                                    var fileParam = new DynamicParameters();
+                                    fileParam.Add("@HotelId", item.Hotel_Id);
+                                    fileParam.Add("@RestaurantId", restaId);
+                                    fileParam.Add("@FilePath", filePath);
+                                    fileParam.Add("@CreatedBy", "Admin");
+
+                                    await connection.ExecuteAsync(
+                                        Stored_Procedures.UPLOAD_FILE_SP,
+                                        fileParam,
+                                        transaction,
+                                        commandType: CommandType.StoredProcedure
+                                    );
+                                }
+                            }
                         }
+
+                        //Commit only if ALL succeed
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        //  Rollback everything if any error
+                        transaction.Rollback();
+                        throw;
                     }
                 }
+            }
+        }
 
-                 
+
+        public async Task UpdateRestaurantsWithFiles( int rest_Id, AddRestaurantsOnPropertyRequest request)
+        {
+            using (var connection = _context.GetConnection())
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    var uploadedFiles = new List<string>();
+
+                    try
+                    {
+                        //foreach (var item in request)
+                        //{
+                            // 1. Update Restaurant
+                            var updateParam = new DynamicParameters();
+                            updateParam.Add("@RestaurantId",rest_Id);
+                            updateParam.Add("@Hotel_Id", request.Hotel_Id);
+                            updateParam.Add("@Resta_Name", request.Resta_Name);
+                            updateParam.Add("@Veg_Id", request.Veg_Id);
+                            updateParam.Add("@Cuisine_Id", request.Cuisine_Id);
+                            updateParam.Add("@No_of_covers", request.No_of_covers);
+                            updateParam.Add("@In_room_dining_facility", request.In_room_dining_facility);
+
+                            var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
+                                "usp_Update_RestaurantOnProperty",
+                                updateParam,
+                                transaction,
+                                commandType: CommandType.StoredProcedure
+                            );
+
+                            int restaurantId = result?.Status ?? 0;
+
+                            if (restaurantId <= 0)
+                                throw new ApiException(result.Message, 400);
+
+                            // 🔹 2. Remove old files (Soft delete)
+                            var deleteParam = new DynamicParameters();
+                            deleteParam.Add("@HotelId", request.Hotel_Id);
+                            deleteParam.Add("@RestaurantId", restaurantId);
+
+                            await connection.ExecuteAsync(
+                                "sp_ReplaceRestaurantFiles",
+                                deleteParam,
+                                transaction,
+                                commandType: CommandType.StoredProcedure
+                            );
+
+                            // 🔹 3. Upload & Insert new files
+                            if (request.ResturantImage != null && request.ResturantImage.Any())
+                            {
+                                foreach (var file in request.ResturantImage)
+                                {
+                                    var filePath = await FileUploadCommon.UploadFileAsync(file);
+                                    uploadedFiles.Add(filePath);
+
+                                    var fileParam = new DynamicParameters();
+                                    fileParam.Add("@HotelId", request.Hotel_Id);
+                                    fileParam.Add("@RestaurantId", restaurantId);
+                                    fileParam.Add("@FilePath", filePath);
+                                    fileParam.Add("@CreatedBy", "Admin");
+
+                                    await connection.ExecuteAsync(
+                                        Stored_Procedures.UPLOAD_FILE_SP,
+                                        fileParam,
+                                        transaction,
+                                        commandType: CommandType.StoredProcedure
+                                    );
+                                }
+                            }
+                     //   }
+
+                        // ✅ Commit if all success
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        // ❌ Rollback DB
+                        transaction.Rollback();
+
+                        // ❌ Delete uploaded files
+                        foreach (var file in uploadedFiles)
+                        {
+                            try
+                            {
+                                if (File.Exists(file))
+                                    File.Delete(file);
+                            }
+                            catch { }
+                        }
+
+                        throw;
+                    }
                 }
+            }
+        }
 
-            //    transaction.Commit();
-            //}
-            //catch
+        public async Task AddHotelContacts(List<AddHotelContacts> hotelContacts)
+        {
+            int restaId = 0;
+            foreach (var item in hotelContacts)
+            {
+                var param = new DynamicParameters();
+                param.Add("@Name", item.Name);
+                param.Add("@Hotel_Id", item.Hotel_Id);
+                param.Add("@Department", item.Department);
+                param.Add("@Designation", item.Designation);
+                param.Add("@landline_country_code", item.Landline_Country_Code);
+                param.Add("@landline_number", item.Landline_Number);
+                param.Add("@whatsapp_country_code", item.Whatsapp_Country_Code);
+                param.Add("@whatsapp_number", item.Whatsapp_Country_Code);
+                param.Add("@created_by", "Admin");
+
+                var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                    Stored_Procedures.ADD_BULK_HOTEL_CONTACTS,
+                    param
+                );
+
+                 restaId = result.Status;
+                if (restaId <= 0) {
+                    throw new ApiException(result.Message, Convert.ToInt32(StatusCode.Badrequest));
+                }
+                
+            }
+             
+           
+            
+        }
+
+        public async Task UpdateHotelContacts(int ContactId, AddHotelContacts hotelContacts)
+        {
+            //foreach (var item in hotelContacts)
             //{
-            //    transaction.Rollback();
-            //    throw;
+                var param = new DynamicParameters();
+                param.Add("@contact_id", ContactId); // ✅ NEW
+                param.Add("@name", hotelContacts.Name);
+                param.Add("@hotel_id", hotelContacts.Hotel_Id);
+                param.Add("@department", hotelContacts.Department);
+                param.Add("@designation", hotelContacts.Designation);
+                param.Add("@landline_country_code", hotelContacts.Landline_Country_Code);
+                param.Add("@landline_number", hotelContacts.Landline_Number);
+                param.Add("@whatsapp_country_code", hotelContacts.Whatsapp_Country_Code);
+                param.Add("@whatsapp_number", hotelContacts.Whatsapp_Number);
+                param.Add("@created_by", "Admin");
+
+                var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                    Stored_Procedures.UPDATE_BULK_HOTEL_CONTACTS,
+                    param
+                );
+
+                if (result.Status <= 0)
+                {
+                    throw new ApiException(result.Message, Convert.ToInt32(StatusCode.Badrequest));
+                }
             //}
         }
 
+        public async Task<dynamic> DeleteRestaurant(int rest_Id)
+        {
+            var param = new DynamicParameters();
+            param.Add("@resta_id", rest_Id);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.DELETE_RESTAURANT,
+                param
+            );
+
+            if (result == null || result.Status <= 0)
+            {
+                throw new ApiException(result?.Message ?? "Error", 400);
+            }
+
+            return result;
+        }
     }
+
 }

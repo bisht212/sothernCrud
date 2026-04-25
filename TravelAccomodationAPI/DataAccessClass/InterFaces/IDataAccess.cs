@@ -6,10 +6,10 @@ namespace TravelAccomodationAPI.DataAccessClass.InterFaces
     public interface IDataAccess
     {
 
-        Task<T> GetAsync<T>(string sp, DynamicParameters parameters = null);
+        Task<T> GetAsync<T>(string sp, DynamicParameters parameters = null, IDbTransaction transaction = null);
 
         Task<IEnumerable<T>> GetListAsync<T>(
-            string sp, DynamicParameters parameters = null);
+            string sp, DynamicParameters parameters = null, IDbTransaction transaction = null);
 
         Task<int> ExecuteAsync(
             string sp, DynamicParameters parameters = null, IDbTransaction transaction = null);
@@ -17,11 +17,7 @@ namespace TravelAccomodationAPI.DataAccessClass.InterFaces
         Task<T> ExecuteScalarAsync<T>(
             string sp, DynamicParameters parameters = null, IDbTransaction transaction = null);
 
-        public  Task BulkInsertAsync<T>(
-                string storedProcedure,
-                string tvpParameterName,
-                string tvpTypeName,
-                IEnumerable<T> data);
+        public Task<T> ExecuteWithResponseAsync<T>(string sp, DynamicParameters? parameters, IDbTransaction? transaction = null);
 
     }
 }
