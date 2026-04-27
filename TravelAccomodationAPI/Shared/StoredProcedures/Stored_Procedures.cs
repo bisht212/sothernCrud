@@ -13,6 +13,17 @@
         public static string ADD_BULK_HOTEL_CONTACTS = "usp_HotelsContacts_Insert";
         public static string UPDATE_BULK_HOTEL_CONTACTS = "usp_HotelsContacts_Update";
         public static string DELETE_RESTAURANT = "usp_RestaurantsOnProperty_Delete";
+        public static string DELTE_HOTEL_CONTACT = "usp_HotelsContacts_Delete";
+        public static string ADD_PHONE_TYPE = "usp_Phonetype_Insert";
+        public static string GET_PHONE_TYPES = "usp_Phonetype_GetAll";
+        public static string GET_PHONE_TYPE = "usp_Phonetype_GetById";
+        public static string ADD_HOTEL_CONTACT_PHONE_NUMBER = "usp_HotelsContactPhone_Insert";
+        public static string DELETE_HOTEL_CONTACT_PHONE_NUMBER = "usp_HotelsContactPhone_Delete";
+        public static string ADD_HOTEl_CONTACT_EMAIL = "usp_HotelsContactEmail_Insert";
+        public static string DELETE_HOTEL_CONTTACT_EMAIL = "usp_HotelsContactEmail_Delete";
+        public static string ADD_AMINITY = "usp_HotelAmenities_Insert";
+        public static string UPDATE_AMINITY = "usp_HotelAmenities_Update";
+        public static string GET_AMINITIES = "usp_HotelAmenities_GetAll"; 
 
     }
 }

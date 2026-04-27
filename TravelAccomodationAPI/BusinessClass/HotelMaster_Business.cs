@@ -260,9 +260,7 @@ namespace TravelAccomodationAPI.BusinessClass
                 }
             }
         }
-
-
-        public async Task UpdateRestaurantsWithFiles( int rest_Id, AddRestaurantsOnPropertyRequest request)
+        public async Task UpdateRestaurantsWithFiles(int rest_Id, AddRestaurantsOnPropertyRequest request)
         {
             using (var connection = _context.GetConnection())
             {
@@ -276,63 +274,63 @@ namespace TravelAccomodationAPI.BusinessClass
                     {
                         //foreach (var item in request)
                         //{
-                            // 1. Update Restaurant
-                            var updateParam = new DynamicParameters();
-                            updateParam.Add("@RestaurantId",rest_Id);
-                            updateParam.Add("@Hotel_Id", request.Hotel_Id);
-                            updateParam.Add("@Resta_Name", request.Resta_Name);
-                            updateParam.Add("@Veg_Id", request.Veg_Id);
-                            updateParam.Add("@Cuisine_Id", request.Cuisine_Id);
-                            updateParam.Add("@No_of_covers", request.No_of_covers);
-                            updateParam.Add("@In_room_dining_facility", request.In_room_dining_facility);
+                        // 1. Update Restaurant
+                        var updateParam = new DynamicParameters();
+                        updateParam.Add("@RestaurantId", rest_Id);
+                        updateParam.Add("@Hotel_Id", request.Hotel_Id);
+                        updateParam.Add("@Resta_Name", request.Resta_Name);
+                        updateParam.Add("@Veg_Id", request.Veg_Id);
+                        updateParam.Add("@Cuisine_Id", request.Cuisine_Id);
+                        updateParam.Add("@No_of_covers", request.No_of_covers);
+                        updateParam.Add("@In_room_dining_facility", request.In_room_dining_facility);
 
-                            var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
-                                "usp_Update_RestaurantOnProperty",
-                                updateParam,
-                                transaction,
-                                commandType: CommandType.StoredProcedure
-                            );
+                        var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
+                            "usp_Update_RestaurantOnProperty",
+                            updateParam,
+                            transaction,
+                            commandType: CommandType.StoredProcedure
+                        );
 
-                            int restaurantId = result?.Status ?? 0;
+                        int restaurantId = result?.Status ?? 0;
 
-                            if (restaurantId <= 0)
-                                throw new ApiException(result.Message, 400);
+                        if (restaurantId <= 0)
+                            throw new ApiException(result.Message, 400);
 
-                            // 🔹 2. Remove old files (Soft delete)
-                            var deleteParam = new DynamicParameters();
-                            deleteParam.Add("@HotelId", request.Hotel_Id);
-                            deleteParam.Add("@RestaurantId", restaurantId);
+                        // 🔹 2. Remove old files (Soft delete)
+                        var deleteParam = new DynamicParameters();
+                        deleteParam.Add("@HotelId", request.Hotel_Id);
+                        deleteParam.Add("@RestaurantId", restaurantId);
 
-                            await connection.ExecuteAsync(
-                                "sp_ReplaceRestaurantFiles",
-                                deleteParam,
-                                transaction,
-                                commandType: CommandType.StoredProcedure
-                            );
+                        await connection.ExecuteAsync(
+                            "sp_ReplaceRestaurantFiles",
+                            deleteParam,
+                            transaction,
+                            commandType: CommandType.StoredProcedure
+                        );
 
-                            // 🔹 3. Upload & Insert new files
-                            if (request.ResturantImage != null && request.ResturantImage.Any())
+                        // 🔹 3. Upload & Insert new files
+                        if (request.ResturantImage != null && request.ResturantImage.Any())
+                        {
+                            foreach (var file in request.ResturantImage)
                             {
-                                foreach (var file in request.ResturantImage)
-                                {
-                                    var filePath = await FileUploadCommon.UploadFileAsync(file);
-                                    uploadedFiles.Add(filePath);
+                                var filePath = await FileUploadCommon.UploadFileAsync(file);
+                                uploadedFiles.Add(filePath);
 
-                                    var fileParam = new DynamicParameters();
-                                    fileParam.Add("@HotelId", request.Hotel_Id);
-                                    fileParam.Add("@RestaurantId", restaurantId);
-                                    fileParam.Add("@FilePath", filePath);
-                                    fileParam.Add("@CreatedBy", "Admin");
+                                var fileParam = new DynamicParameters();
+                                fileParam.Add("@HotelId", request.Hotel_Id);
+                                fileParam.Add("@RestaurantId", restaurantId);
+                                fileParam.Add("@FilePath", filePath);
+                                fileParam.Add("@CreatedBy", "Admin");
 
-                                    await connection.ExecuteAsync(
-                                        Stored_Procedures.UPLOAD_FILE_SP,
-                                        fileParam,
-                                        transaction,
-                                        commandType: CommandType.StoredProcedure
-                                    );
-                                }
+                                await connection.ExecuteAsync(
+                                    Stored_Procedures.UPLOAD_FILE_SP,
+                                    fileParam,
+                                    transaction,
+                                    commandType: CommandType.StoredProcedure
+                                );
                             }
-                     //   }
+                        }
+                        //   }
 
                         // ✅ Commit if all success
                         transaction.Commit();
@@ -359,6 +357,24 @@ namespace TravelAccomodationAPI.BusinessClass
             }
         }
 
+        public async Task<dynamic> DeleteRestaurant(int rest_Id)
+        {
+            var param = new DynamicParameters();
+            param.Add("@resta_id", rest_Id);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.DELETE_RESTAURANT,
+                param
+            );
+
+            if (result?.Status <= 0)
+            {
+                throw new ApiException(result?.Message ?? "Error", 400);
+            }
+
+            return result;
+        }
+
         public async Task AddHotelContacts(List<AddHotelContacts> hotelContacts)
         {
             int restaId = 0;
@@ -380,62 +396,228 @@ namespace TravelAccomodationAPI.BusinessClass
                     param
                 );
 
-                 restaId = result.Status;
-                if (restaId <= 0) {
+                restaId = result.Status;
+                if (restaId <= 0)
+                {
                     throw new ApiException(result.Message, Convert.ToInt32(StatusCode.Badrequest));
                 }
-                
+
             }
-             
-           
-            
+
         }
 
         public async Task UpdateHotelContacts(int ContactId, AddHotelContacts hotelContacts)
         {
-            //foreach (var item in hotelContacts)
-            //{
-                var param = new DynamicParameters();
-                param.Add("@contact_id", ContactId); // ✅ NEW
-                param.Add("@name", hotelContacts.Name);
-                param.Add("@hotel_id", hotelContacts.Hotel_Id);
-                param.Add("@department", hotelContacts.Department);
-                param.Add("@designation", hotelContacts.Designation);
-                param.Add("@landline_country_code", hotelContacts.Landline_Country_Code);
-                param.Add("@landline_number", hotelContacts.Landline_Number);
-                param.Add("@whatsapp_country_code", hotelContacts.Whatsapp_Country_Code);
-                param.Add("@whatsapp_number", hotelContacts.Whatsapp_Number);
-                param.Add("@created_by", "Admin");
 
-                var result = await _da.ExecuteWithResponseAsync<dynamic>(
+            var param = new DynamicParameters();
+            param.Add("@contact_id", ContactId); // ✅ NEW
+            param.Add("@name", hotelContacts.Name);
+            param.Add("@department", hotelContacts.Department);
+            param.Add("@designation", hotelContacts.Designation);
+            param.Add("@landline_country_code", hotelContacts.Landline_Country_Code);
+            param.Add("@landline_number", hotelContacts.Landline_Number);
+            param.Add("@whatsapp_country_code", hotelContacts.Whatsapp_Country_Code);
+            param.Add("@whatsapp_number", hotelContacts.Whatsapp_Number);
+            param.Add("@updated_By", "Admin");
+            //  param.Add("@updated_", "Admin");
+
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
                     Stored_Procedures.UPDATE_BULK_HOTEL_CONTACTS,
                     param
                 );
 
-                if (result.Status <= 0)
-                {
-                    throw new ApiException(result.Message, Convert.ToInt32(StatusCode.Badrequest));
-                }
-            //}
+            if (result.Status <= 0)
+            {
+                throw new ApiException(result.Message, Convert.ToInt32(StatusCode.Badrequest));
+            }
+
         }
 
-        public async Task<dynamic> DeleteRestaurant(int rest_Id)
+        public async Task<dynamic> DeleteHotelContact(int contact_id)
         {
             var param = new DynamicParameters();
-            param.Add("@resta_id", rest_Id);
+            param.Add("@contact_id", contact_id);
 
             var result = await _da.ExecuteWithResponseAsync<dynamic>(
-                Stored_Procedures.DELETE_RESTAURANT,
+                Stored_Procedures.DELTE_HOTEL_CONTACT,
                 param
             );
 
-            if (result == null || result.Status <= 0)
+            if (result?.Status <= 0)
             {
                 throw new ApiException(result?.Message ?? "Error", 400);
             }
 
             return result;
         }
-    }
 
+        public async Task AddPhoneType(AddPhoneType phoneTypeRequest)
+        {
+            var param = new DynamicParameters();
+            param.Add("@phonetype", phoneTypeRequest.PhoneType);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                   Stored_Procedures.ADD_PHONE_TYPE,
+                   param
+               );
+        }
+
+        public async Task<IEnumerable<PhoneTypeResponse>> GetPhoneTypes()
+        {
+
+            IEnumerable<PhoneTypeResponse> result = await _da.GetListAsync<PhoneTypeResponse>(
+                Stored_Procedures.GET_PHONE_TYPES);
+
+            return result.ToList();
+        }
+
+        public async Task<PhoneTypeResponse> GetPhoneType(int phoneTypeId)
+        {
+            var param = new DynamicParameters();
+            param.Add("@phonetype_id", phoneTypeId);
+
+            PhoneTypeResponse result = await _da.GetAsync<PhoneTypeResponse>(
+               Stored_Procedures.GET_PHONE_TYPE, param);
+
+            return result;
+        }
+
+        public async Task AddHotelContactPhoneNumber(AddHotelContactPhoneNumberRequest phoneNumberRequest)
+        {
+
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@contact_id", phoneNumberRequest.ContactId, DbType.Int64);
+            parameters.Add("@country_code", phoneNumberRequest.CountryCode, DbType.String);
+            parameters.Add("@phone_number", phoneNumberRequest.Phone_Number, DbType.String);
+            parameters.Add("@phonetype_id", phoneNumberRequest.PhoneType_Id, DbType.Int32);
+            parameters.Add("@created_by", phoneNumberRequest.Created_By ?? "Admin");
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.ADD_HOTEL_CONTACT_PHONE_NUMBER,
+                parameters
+            );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
+
+        }
+
+        public async Task<dynamic> DeletePhoneId(long phone_Id)
+        {
+
+            var param = new DynamicParameters();
+            param.Add("@phone_id", phone_Id);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.DELETE_HOTEL_CONTACT_PHONE_NUMBER,
+                param
+            );
+
+            if (result?.Status <= 0)
+            {
+                throw new ApiException(result?.Message ?? "Error", 404);
+            }
+
+            return result;
+        }
+
+        public async Task AddHotelContactEmail(AddHotelContactEmailRequest emailRequest)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@contact_id", emailRequest.ContactId, DbType.Int64);
+            parameters.Add("@email", emailRequest.Email, DbType.String);
+            parameters.Add("@created_by", emailRequest.Created_By ?? "Admin");
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.ADD_HOTEl_CONTACT_EMAIL,
+                parameters
+            );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
+
+        }
+
+        public async Task<dynamic> DeleteEmailId(long email_Id)
+        {
+            var param = new DynamicParameters();
+            param.Add("@email_id", email_Id);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.DELETE_HOTEL_CONTTACT_EMAIL,
+                param
+            );
+
+            if (result?.Status <= 0)
+            {
+                throw new ApiException(result?.Message ?? "Error", 404);
+            }
+
+            return result;
+        }
+
+        public async Task AddAminity(AddAmenitiesRequest aminityRequest)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@AmenityName", aminityRequest.AmenityName, DbType.String);
+            parameters.Add("@SortOrder", aminityRequest.SortOrder, DbType.Int32);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                   Stored_Procedures.ADD_AMINITY,
+                   parameters
+               );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
+        }
+
+        public async Task UpdateAminity(int amenityId, AddAmenitiesRequest aminityRequest)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@AmenityId", amenityId, DbType.Int32);
+            parameters.Add("@AmenityName", aminityRequest.AmenityName, DbType.String);
+            parameters.Add("@SortOrder", aminityRequest.SortOrder, DbType.Int32);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.UPDATE_AMINITY,
+                parameters
+            );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
+        }
+
+        public async Task<IEnumerable<GetAminityResponse>> GetAminities()
+        {
+            var result = await _da.GetListAsync<GetAminityResponse>(
+               Stored_Procedures.GET_AMINITIES);
+
+            return result.ToList();
+        }
+    }
 }

@@ -12,7 +12,7 @@ namespace TravelAccomodationAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableRateLimiting("fixed")]
+//    [EnableRateLimiting("fixed")]
     public class HotelMastersController : ControllerBase
     {
         private readonly IHotelMaster_Business _hotelMaster;
@@ -123,6 +123,13 @@ namespace TravelAccomodationAPI.Controllers
         /// <request>cuisineId</request>
         /// </summary>
         [HttpGet("Get_Cuisine/{Id}")]
+
+
+
+        /// <summary>
+        /// Get cuisine details by cuisine Id.
+        /// <request>Id</request>
+        /// </summary>
         public async Task<IActionResult> Get_Cuisine(int Id)
         {
 
@@ -136,7 +143,11 @@ namespace TravelAccomodationAPI.Controllers
                 Data = result
             });
         }
-
+       
+        /// <summary>
+        /// Add restaurant details on a hotel property.
+        /// <request>List of AddRestaurantsOnPropertyRequest</request>
+        /// </summary>
         [HttpPost("add_restaurant_on_property")]
         public async Task<IActionResult> AddRestaurantsOnProperty(
         [FromForm] List<AddRestaurantsOnPropertyRequest> request)
@@ -161,8 +172,10 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-
-
+        /// <summary>
+        /// Update restaurant details on a hotel property.
+        /// <request>Id, AddRestaurantsOnPropertyRequest</request>
+        /// </summary>
         [HttpPut("update_restaurant_on_property/{Id}")]
         public async Task<IActionResult> UpdateRestaurantsOnProperty(int Id,
         [FromForm] AddRestaurantsOnPropertyRequest request)
@@ -187,6 +200,11 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
+        /// <summary>
+        /// Delete restaurant details on a hotel property (soft delete).
+        /// <request>Id</request>
+        /// </summary>
+
         [HttpDelete("delete_restaurant_on_property/{Id}")]
         public async Task<IActionResult> DeleteRestaurantsOnProperty(int Id)
         {
@@ -194,12 +212,16 @@ namespace TravelAccomodationAPI.Controllers
 
             return StatusCode(201, new ApiResponse<dynamic>
             {
-                StatusCode = 201,
+                StatusCode = 204,
                 IsError = false,
                 Message = response.Message
             });
         }
 
+        /// <summary>
+        /// Add hotel contacts in bulk.
+        /// <request>List of AddHotelContacts</request>
+        /// </summary>
         [HttpPost("add_hotel_contacts")]
         public async Task<IActionResult> Addhotelscontacts(List<AddHotelContacts> hotelContacts) {
 
@@ -213,11 +235,12 @@ namespace TravelAccomodationAPI.Controllers
                 Message = "Success",
               
             });
-
-
         }
 
-
+        /// <summary>
+        /// Update hotel contact information.
+        /// <request>contactId, AddHotelContacts</request>
+        /// </summary>
         [HttpPut("update_hotel_contacts/{contactId}")]
         public async Task<IActionResult> Updatehotelscontacts(int contactId, AddHotelContacts hotelContacts)
         {
@@ -234,6 +257,196 @@ namespace TravelAccomodationAPI.Controllers
             });
 
 
+        }
+
+        /// <summary>
+        /// Delete hotel contact (soft delete).
+        /// <request>Id</request>
+        /// </summary>
+        [HttpDelete("delete_hotel_contact/{Id}")]
+        public async Task<IActionResult> DeleteHotelContact(int Id)
+        {
+            var response = await _hotelMaster.DeleteHotelContact(Id);
+
+            return StatusCode(204, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = response.Message
+            });
+        }
+
+        /// <summary>
+        /// Add a new phone type (e.g., Mobile, Landline, WhatsApp).
+        /// <request>AddPhoneType</request>
+        /// </summary>
+        [HttpPost("add_phone_type")]
+        public async Task<IActionResult> AddPhoneType(AddPhoneType phoneTypeRequest)
+        {
+            await _hotelMaster.AddPhoneType(phoneTypeRequest);
+
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Success"
+            });
+        }
+
+        /// <summary>
+        /// Get the list of all phone types.
+        /// </summary>
+        [HttpGet("get_phone_types")]
+        public async Task<IActionResult> GetPhoneTypes()
+        {
+            var response = await _hotelMaster.GetPhoneTypes();
+            return Ok(new ApiResponse<IEnumerable<PhoneTypeResponse>>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+
+        }
+
+        /// <summary>
+        /// Get phone type by phoneTypeId.
+        /// <request>phoneTypeId</request>
+        /// </summary>
+        [HttpGet("get_phone_type/{phoneTypeId}")]
+        public async Task<IActionResult> GetPhoneType(int phoneTypeId)
+        {
+            var response = await _hotelMaster.GetPhoneType(phoneTypeId);
+            return Ok(new ApiResponse<PhoneTypeResponse>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+
+        }
+
+        /// <summary>
+        /// Add phone number to a hotel contact.
+        /// <request>AddHotelContactPhoneNumberRequest</request>
+        /// </summary>
+        [HttpPost("add_hotel_contact_phone")]
+        public async Task<IActionResult> AddHotelContactPhone(AddHotelContactPhoneNumberRequest phoneNumberRequest)
+        {
+            await _hotelMaster.AddHotelContactPhoneNumber(phoneNumberRequest);
+
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Success"
+            });
+        }
+
+        /// <summary>
+        /// Delete a contact phone (soft delete).
+        /// <request>phone_id</request>
+        /// </summary>
+        [HttpDelete("delete_hotel_contact_phone_number/{phone_id}")]
+        public async Task<IActionResult> DeleteContactPhone(long phone_id)
+        {
+            await _hotelMaster.DeletePhoneId(phone_id);
+
+            return StatusCode(204, new ApiResponse<dynamic>
+            {
+                StatusCode = 204,
+                IsError = false,
+                Message = "Success"
+            });
+
+        }
+
+        /// <summary>
+        /// Add an email to a hotel contact.
+        /// <request>AddHotelContactEmailRequest</request>
+        /// </summary>
+        [HttpPost("add_hotel_contact_email")]
+        public async Task<IActionResult> AddHotelContactEmail(AddHotelContactEmailRequest emailRequest)
+        {
+            await _hotelMaster.AddHotelContactEmail(emailRequest);
+
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Success"
+            });
+        }
+
+        /// <summary>
+        /// Delete a contact email (soft delete).
+        /// <request>email_id</request>
+        /// </summary>
+        [HttpDelete("delete_hotel_contact_email/{email_id}")]
+        public async Task<IActionResult> DeleteContactEmail(long email_id)
+        {
+            await _hotelMaster.DeleteEmailId(email_id);
+
+            return StatusCode(204, new ApiResponse<dynamic>
+            {
+                StatusCode = 204,
+                IsError = false,
+                Message = "Success"
+            });
+        }
+
+        /// <summary>
+        /// Add Aminity.
+        /// <request>AddAmenitiesRequest</request>
+        /// </summary>
+        [HttpPost("add_aminity")]
+        public async Task<IActionResult> AddAminity(AddAmenitiesRequest aminityRequest) {
+            
+            await _hotelMaster.AddAminity(aminityRequest);
+
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Success"
+            });
+        }
+
+        /// <summary>
+        /// update Aminity.
+        ///   <request>amenityId</request>
+        /// <request>AddAmenitiesRequest</request>
+        /// </summary>
+        [HttpPut("update_aminity/{amenityId}")]
+        public async Task<IActionResult> AddAminity(int amenityId, AddAmenitiesRequest aminityRequest)
+        {
+
+            await _hotelMaster.UpdateAminity(amenityId, aminityRequest);
+
+            return StatusCode(204, new ApiResponse<dynamic>
+            {
+                StatusCode = 204,
+                IsError = false,
+                Message = "Success"
+            });
+        }
+        
+        /// <summary>
+        /// Get List Aminites.
+        /// </summary>
+        [HttpGet("get_aminities")]
+        public async Task<IActionResult> GetAminities()
+        {
+            var response = await _hotelMaster.GetAminities();
+            return Ok(new ApiResponse<IEnumerable<GetAminityResponse>>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
         }
     }
 }
