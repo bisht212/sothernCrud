@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using System.Data;
+using System.Data.Common;
 using System.Transactions;
 using TravelAccomodationAPI.BusinessClass.Interface;
 using TravelAccomodationAPI.DataAccessClass.InterFaces;
@@ -619,5 +621,226 @@ namespace TravelAccomodationAPI.BusinessClass
 
             return result.ToList();
         }
+
+        public async Task<GetAminityResponse> GetAminity(int aminityId)
+        {
+            var param = new DynamicParameters();
+            param.Add("@AmenityID", aminityId);
+
+            GetAminityResponse result = await _da.GetAsync<GetAminityResponse>(
+               Stored_Procedures.GET_AMINITY, param);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<HotelFacilityCategoryResponse>> GetHotelFacilityCategory()
+        {
+            IEnumerable<HotelFacilityCategoryResponse> result = await _da.GetListAsync<HotelFacilityCategoryResponse>(
+                Stored_Procedures.GET_HOTEL_FACILITY_CATEGORIES);
+
+            return result.ToList();
+        }
+
+        public async Task<HotelFacilityCategoryResponse> GetHotelFacilityCategoryByID(int facility_CategoryId)
+        {
+            var param = new DynamicParameters();
+            param.Add("@Facility_CategoryId", facility_CategoryId);
+
+            HotelFacilityCategoryResponse result = await _da.GetAsync<HotelFacilityCategoryResponse>(
+               Stored_Procedures.GET_HOTEL_FACILITY_CATEGORYID, param);
+
+            return result;
+        }
+
+        public async Task AddHotelFacility(List<AddHotelFacilitiesRequest> hotelFacilityRequest)
+        {
+
+            foreach (var item in hotelFacilityRequest)
+            {
+                var param = new DynamicParameters();
+                param.Add("@hotel_id", item.Hotel_Id);
+                param.Add("@AmenityID", item.AminittyId);
+                param.Add("@created_by", item.Created_By);
+
+                await _da.ExecuteAsync(
+                    Stored_Procedures.ADD_HOTEL_FACILITIES,
+                    param
+
+                );
+
+            }
+
+        }
+
+
+        public async Task InsertBanquetWithFiles(List<AddBanquestRequest> request)
+        {
+            using (var connection = _context.GetConnection())
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        foreach (var item in request)
+                        {
+                            // 1. Insert Banquet
+                            var param = new DynamicParameters();
+                            param.Add("@Hotel_Id", item.Hotel_Id);
+                            param.Add("@Banquet_Name", item.Banquet_Name);
+                            param.Add("@No_of_covers", item.No_of_covers);
+                            param.Add("@Per_plate_cost_veg", item.Per_plate_cost_veg);
+                            param.Add("@Per_plate_cost_non_veg", item.Per_plate_cost_non_veg);
+                            param.Add("@Sq_feet_area", item.Sq_feet_area);
+                            param.Add("@Description", item.Description);
+
+                            var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
+                                Stored_Procedures.ADD_BULK_BANQUET,
+                                param,
+                                transaction,
+                                commandType: CommandType.StoredProcedure
+                            );
+
+                            int banquetId = result.Status;
+
+                            if (banquetId <= 0)
+                                throw new ApiException(
+                                    result.Message,
+                                    Convert.ToInt32(StatusCode.Conflict)
+                                );
+
+                            // 2. Insert Banquet Images
+                            if (item.BanquetImages != null && item.BanquetImages.Any())
+                            {
+                                foreach (var file in item.BanquetImages)
+                                {
+                                    var filePath =
+                                        await FileUploadCommon.UploadFileAsync(file);
+
+                                    var fileParam = new DynamicParameters();
+                                    fileParam.Add("@HotelId", item.Hotel_Id);
+                                    fileParam.Add("@BanquetId", banquetId);
+                                    fileParam.Add("@FilePath", filePath);
+                                    fileParam.Add("@CreatedBy", "Admin");
+
+                                    await connection.ExecuteAsync(
+                                        Stored_Procedures.UPLOAD_BANQUET_FILES,
+                                        fileParam,
+                                        transaction,
+                                        commandType: CommandType.StoredProcedure
+                                    );
+                                }
+                            }
+                        }
+
+                        // ✅ Commit only if ALL inserts succeed
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        // ❌ Rollback everything if any failure
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        public async Task UpdateBanquetWithFiles(int banquetId, AddBanquestRequest request)
+        {
+            using (var connection = _context.GetConnection())
+            {
+                connection.Open();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    var uploadedFiles = new List<string>();
+
+                    try
+                    {
+                        // 🔹 1. Update Banquet
+                        var updateParam = new DynamicParameters();
+                        updateParam.Add("@BanquetId", banquetId);
+                        updateParam.Add("@Hotel_Id", request.Hotel_Id);
+                        updateParam.Add("@Banquet_Name", request.Banquet_Name);
+                        updateParam.Add("@No_of_covers", request.No_of_covers);
+                        updateParam.Add("@Per_plate_cost_veg", request.Per_plate_cost_veg);
+                        updateParam.Add("@Per_plate_cost_non_veg", request.Per_plate_cost_non_veg);
+                        updateParam.Add("@Sq_feet_area", request.Sq_feet_area);
+                        updateParam.Add("@Description", request.Description);
+
+                        var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
+                            "usp_Update_Banquet",
+                            updateParam,
+                            transaction,
+                            commandType: CommandType.StoredProcedure
+                        );
+
+                        int updatedBanquetId = result?.Status ?? 0;
+
+                        if (updatedBanquetId <= 0)
+                            throw new ApiException(result?.Message ?? "Banquet update failed", 400);
+
+                        // 🔹 2. Soft delete existing banquet files
+                        var deleteParam = new DynamicParameters();
+                        deleteParam.Add("@HotelId", request.Hotel_Id);
+                        deleteParam.Add("@BanquetId", updatedBanquetId);
+
+                        await connection.ExecuteAsync(
+                            "sp_ReplaceBanquetFiles",
+                            deleteParam,
+                            transaction,
+                            commandType: CommandType.StoredProcedure
+                        );
+
+                        // 🔹 3. Upload & insert new banquet files
+                        if (request.BanquetImages != null && request.BanquetImages.Any())
+                        {
+                            foreach (var file in request.BanquetImages)
+                            {
+                                var filePath = await FileUploadCommon.UploadFileAsync(file);
+                                uploadedFiles.Add(filePath);
+
+                                var fileParam = new DynamicParameters();
+                                fileParam.Add("@HotelId", request.Hotel_Id);
+                                fileParam.Add("@BanquetId", updatedBanquetId);
+                                fileParam.Add("@FilePath", filePath);
+                                fileParam.Add("@CreatedBy", "Admin");
+
+                                await connection.ExecuteAsync(
+                                    Stored_Procedures.UPLOAD_BANQUET_FILE_SP,
+                                    fileParam,
+                                    transaction,
+                                    commandType: CommandType.StoredProcedure
+                                );
+                            }
+                        }
+
+                        // ✅ Commit if everything succeeds
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        // ❌ Rollback DB changes
+                        transaction.Rollback();
+
+                        // ❌ Cleanup uploaded files
+                        foreach (var file in uploadedFiles)
+                        {
+                            try
+                            {
+                                if (File.Exists(file))
+                                    File.Delete(file);
+                            }
+                            catch { }
+                        }
+
+                        throw;
+                    }
+                }
+            }
+        }
+
     }
 }

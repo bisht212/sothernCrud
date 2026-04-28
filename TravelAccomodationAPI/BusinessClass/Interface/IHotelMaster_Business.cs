@@ -27,6 +27,13 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
         public Task<dynamic> DeleteEmailId(long email_Id);
         public Task AddAminity(AddAmenitiesRequest aminityRequest);
         public Task UpdateAminity(int amenityId, AddAmenitiesRequest aminityRequest);
-        public Task<IEnumerable<GetAminityResponse>> GetAminities(); 
+        public Task<IEnumerable<GetAminityResponse>> GetAminities();
+        public Task<GetAminityResponse> GetAminity(int aminityId);
+        public Task<IEnumerable<HotelFacilityCategoryResponse>> GetHotelFacilityCategory();
+        public Task<HotelFacilityCategoryResponse> GetHotelFacilityCategoryByID(int facility_CategoryId);
+        public Task AddHotelFacility(List<AddHotelFacilitiesRequest> hotelFacilityRequest);
+        public Task InsertBanquetWithFiles(List<AddBanquestRequest> request);
+        public Task UpdateBanquetWithFiles(int banquetId, AddBanquestRequest request);
+
     }
 }

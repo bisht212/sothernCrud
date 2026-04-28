@@ -10,6 +10,8 @@
         public static string GET_ALL_CUISINE = "dbo.usp_Cuisine_GetAll";
         public static string ADD_BULK_RESTURANTPROPERTY = "usp_Bulk_RestaurantsOnProperty_Insert";
         public static string UPLOAD_FILE_SP = "sp_InsertFile";
+        public static string ADD_BULK_BANQUET = "usp_Banquet_Insert";
+        public static string UPLOAD_BANQUET_FILES = "sp_InsertBanquetFile";
         public static string ADD_BULK_HOTEL_CONTACTS = "usp_HotelsContacts_Insert";
         public static string UPDATE_BULK_HOTEL_CONTACTS = "usp_HotelsContacts_Update";
         public static string DELETE_RESTAURANT = "usp_RestaurantsOnProperty_Delete";
@@ -23,7 +25,12 @@
         public static string DELETE_HOTEL_CONTTACT_EMAIL = "usp_HotelsContactEmail_Delete";
         public static string ADD_AMINITY = "usp_HotelAmenities_Insert";
         public static string UPDATE_AMINITY = "usp_HotelAmenities_Update";
-        public static string GET_AMINITIES = "usp_HotelAmenities_GetAll"; 
+        public static string GET_AMINITIES = "usp_HotelAmenities_GetAll";
+        public static string GET_AMINITY = "usp_HotelAmenities_GetById";
+        public static string GET_HOTEL_FACILITY_CATEGORIES = "usp_Hotel_Facility_Category_GetAll";
+        public static string GET_HOTEL_FACILITY_CATEGORYID = "usp_Hotel_Facility_Category_GetById";
+        public static string ADD_HOTEL_FACILITIES = "usp_HotelFacilities_Insert";
+        public static string UPLOAD_BANQUET_FILE_SP = "usp_Update_BanquetOnProperty"; 
 
     }
 }

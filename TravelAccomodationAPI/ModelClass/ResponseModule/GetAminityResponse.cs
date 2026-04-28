@@ -5,6 +5,7 @@
         public int AmenityID { get; set; }
         public string AmenityName { get; set; }
         public int SortOrder { get; set; }
+        public int Facility_CategoryId { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
 

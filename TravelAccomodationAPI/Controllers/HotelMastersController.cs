@@ -79,7 +79,6 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-
         /// <summary>
         /// Get Constant veg non veg by there Id
         /// <request>vegnonvegId</request>
@@ -98,7 +97,6 @@ namespace TravelAccomodationAPI.Controllers
                 Data = result
             });
         }
-
 
         /// <summary>
         /// Get All List Cuisines
@@ -123,8 +121,6 @@ namespace TravelAccomodationAPI.Controllers
         /// <request>cuisineId</request>
         /// </summary>
         [HttpGet("Get_Cuisine/{Id}")]
-
-
 
         /// <summary>
         /// Get cuisine details by cuisine Id.
@@ -448,5 +444,114 @@ namespace TravelAccomodationAPI.Controllers
                 Data = response
             });
         }
+
+        /// <summary>
+        /// Get  Aminity by Id.
+        /// <request>aminityId</request>
+        /// </summary>
+        [HttpGet("get_aminity/{aminityId}")]
+        public async Task<IActionResult> GetAminity(int aminityId)
+        {
+
+            var response = await _hotelMaster.GetAminity(aminityId);
+            return Ok(new ApiResponse<GetAminityResponse>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
+
+        [HttpGet("get_hotel_facility_categories")]
+        public async Task<IActionResult> GetHotelFacilityCategories()
+        {
+            IEnumerable<HotelFacilityCategoryResponse> response = await _hotelMaster.GetHotelFacilityCategory();
+            return Ok(new ApiResponse<IEnumerable<HotelFacilityCategoryResponse>>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
+
+        // <summary>
+        /// Get  facility category by Id.
+        /// <request>facility_CategoryId</request>
+        /// </summary>
+        [HttpGet("get_facility_category/{facility_CategoryId}")]
+        public async Task<IActionResult> GetHotelFacilityCategoryByID(int facility_CategoryId)
+        {
+
+            HotelFacilityCategoryResponse response = await _hotelMaster.GetHotelFacilityCategoryByID(facility_CategoryId);
+            return Ok(new ApiResponse<HotelFacilityCategoryResponse>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
+
+        // <summary>
+        /// Add hotel facility.
+        /// <request>List<AddHotelFacilitiesRequest></request>
+        /// </summary>
+        [HttpPost("add_hotel_facility")]
+        public async Task<IActionResult> AddHotelFacility(List<AddHotelFacilitiesRequest> hotelFacilityRequest)
+        {
+            await _hotelMaster.AddHotelFacility(hotelFacilityRequest);
+            return Ok(new ApiResponse<dynamic>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+               
+            });
+        }
+
+        [HttpPost("add_hotel_banquest")]
+        public async Task<IActionResult> InsertBanquetWithFiles( List<AddBanquestRequest> request)
+        {
+            await _hotelMaster.InsertBanquetWithFiles(request);
+
+            return StatusCode(201, new ApiResponse<string>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Banquet added successfully"
+            });
+        }
+
+        /// <summary>
+        /// Update restaurant details on a hotel property.
+        /// <request>Id, AddBanquestRequest</request>
+        /// </summary>
+        [HttpPut("update_Banquet_on_property/{banquetId}")]
+        public async Task<IActionResult> UpdateBanquetOnProperty(int banquetId,
+        [FromForm] AddBanquestRequest request)
+        {
+            if (request == null)
+            {
+                return BadRequest(new ApiResponse<dynamic>
+                {
+                    StatusCode = 400,
+                    IsError = true,
+                    Message = "Request data is empty"
+                });
+            }
+
+            await _hotelMaster.UpdateBanquetWithFiles(banquetId, request);
+
+            return StatusCode(204, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Restaurant property updated successfully"
+            });
+        }
+
+
     }
 }
