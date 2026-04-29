@@ -7,10 +7,6 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
     {
         public  Task<IEnumerable<HotelMasterResponse>> GetHotelMasterList(HotelFilterRequest hotelFilter);
         public Task<AddHotelMasterResponse> AddhotelsMaster(AddHotelMasterRequest user);
-        public Task<IEnumerable<GetVeg_NonVegResponse>> GetAll_Veg_Non_Veg();
-        public Task<GetVeg_NonVegResponse> Get_Veg_Non_Veg(int Id);
-        public Task<IEnumerable<GetCuisine>> GetAll_Cuisine();
-        public Task<GetCuisine> Get_Cuisine(int Id);
         // public Task<int> AddrestaurantsOnProperty(List<AddRestaurantsOnPropertyRequest> resturantRequest);
         public Task InsertRestaurantsWithFiles(List<AddRestaurantsOnPropertyRequest> request);
         public Task UpdateRestaurantsWithFiles(int rest_Id, AddRestaurantsOnPropertyRequest request);
@@ -18,9 +14,6 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
         public Task AddHotelContacts(List<AddHotelContacts> hotelContacts);
         public Task UpdateHotelContacts(int ContactId, AddHotelContacts hotelContacts);
         public Task<dynamic> DeleteHotelContact(int contact_id);
-        public Task AddPhoneType(AddPhoneType phoneTypeRequest);
-        public Task<IEnumerable<PhoneTypeResponse>> GetPhoneTypes();
-        public Task<PhoneTypeResponse> GetPhoneType(int phoneTypeId);
         public Task AddHotelContactPhoneNumber(AddHotelContactPhoneNumberRequest phoneNumberRequest);
         public Task<dynamic> DeletePhoneId(long phone_Id);
         public Task AddHotelContactEmail(AddHotelContactEmailRequest emailRequest);
@@ -34,6 +27,11 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
         public Task AddHotelFacility(List<AddHotelFacilitiesRequest> hotelFacilityRequest);
         public Task InsertBanquetWithFiles(List<AddBanquestRequest> request);
         public Task UpdateBanquetWithFiles(int banquetId, AddBanquestRequest request);
+        public Task<dynamic> DeleteBanquete(long banquete_Id);
+        public Task<dynamic> BulkUploadHotelFilesAsync(List<AddHotelFilesRequest> files);
+        public Task<dynamic> UpdateHotelFIle(long fileId, AddHotelFilesRequest file);
+        public Task<dynamic> DeleteHotelFile(long fileId, long hotelId);
+        public Task<IEnumerable<GetHotelFilesResponse>> GetHotelFiles(long hotelId); 
 
     }
 }

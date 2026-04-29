@@ -61,84 +61,7 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-        /// <summary>
-        /// Get All List Constant veg non veg
-        /// </summary>
-
-        [HttpGet("Get_Veg_Non_Veg")]
-        public async Task<IActionResult> GetAll_Veg_Non_Veg() {
-
-            var result = await _hotelMaster.GetAll_Veg_Non_Veg();
-
-            return Ok(new ApiResponse<IEnumerable<GetVeg_NonVegResponse>>
-            {
-                StatusCode = 200,
-                IsError = false,
-                Message = "Success",
-                Data = result
-            });
-        }
-
-        /// <summary>
-        /// Get Constant veg non veg by there Id
-        /// <request>vegnonvegId</request>
-        /// </summary>
-
-        [HttpGet("Get_Veg_Non_Veg/{Id}")]
-        public async Task<IActionResult> Get_Veg_Non_Veg(int Id) {
-
-            var result = await _hotelMaster.Get_Veg_Non_Veg(Id);
-
-            return Ok(new ApiResponse<GetVeg_NonVegResponse>
-            {
-                StatusCode = 200,
-                IsError = false,
-                Message = "Success",
-                Data = result
-            });
-        }
-
-        /// <summary>
-        /// Get All List Cuisines
-        /// </summary>
-        [HttpGet("GetAll_Cuisine")]
-        public async Task<IActionResult> GetAll_Cuisine()
-        {
-
-            IEnumerable<GetCuisine> result = await _hotelMaster.GetAll_Cuisine();
-
-            return Ok(new ApiResponse<IEnumerable<GetCuisine>>
-            {
-                StatusCode = 200,
-                IsError = false,
-                Message = "Success",
-                Data = result
-            });
-        }
-
-        /// <summary>
-        /// Get Constant veg non veg by there Id
-        /// <request>cuisineId</request>
-        /// </summary>
-        [HttpGet("Get_Cuisine/{Id}")]
-
-        /// <summary>
-        /// Get cuisine details by cuisine Id.
-        /// <request>Id</request>
-        /// </summary>
-        public async Task<IActionResult> Get_Cuisine(int Id)
-        {
-
-            GetCuisine result = await _hotelMaster.Get_Cuisine(Id);
-
-            return Ok(new ApiResponse<GetCuisine>
-            {
-                StatusCode = 200,
-                IsError = false,
-                Message = "Success",
-                Data = result
-            });
-        }
+    
        
         /// <summary>
         /// Add restaurant details on a hotel property.
@@ -200,7 +123,6 @@ namespace TravelAccomodationAPI.Controllers
         /// Delete restaurant details on a hotel property (soft delete).
         /// <request>Id</request>
         /// </summary>
-
         [HttpDelete("delete_restaurant_on_property/{Id}")]
         public async Task<IActionResult> DeleteRestaurantsOnProperty(int Id)
         {
@@ -273,58 +195,6 @@ namespace TravelAccomodationAPI.Controllers
         }
 
         /// <summary>
-        /// Add a new phone type (e.g., Mobile, Landline, WhatsApp).
-        /// <request>AddPhoneType</request>
-        /// </summary>
-        [HttpPost("add_phone_type")]
-        public async Task<IActionResult> AddPhoneType(AddPhoneType phoneTypeRequest)
-        {
-            await _hotelMaster.AddPhoneType(phoneTypeRequest);
-
-            return StatusCode(201, new ApiResponse<dynamic>
-            {
-                StatusCode = 201,
-                IsError = false,
-                Message = "Success"
-            });
-        }
-
-        /// <summary>
-        /// Get the list of all phone types.
-        /// </summary>
-        [HttpGet("get_phone_types")]
-        public async Task<IActionResult> GetPhoneTypes()
-        {
-            var response = await _hotelMaster.GetPhoneTypes();
-            return Ok(new ApiResponse<IEnumerable<PhoneTypeResponse>>
-            {
-                StatusCode = 200,
-                IsError = false,
-                Message = "Success",
-                Data = response
-            });
-
-        }
-
-        /// <summary>
-        /// Get phone type by phoneTypeId.
-        /// <request>phoneTypeId</request>
-        /// </summary>
-        [HttpGet("get_phone_type/{phoneTypeId}")]
-        public async Task<IActionResult> GetPhoneType(int phoneTypeId)
-        {
-            var response = await _hotelMaster.GetPhoneType(phoneTypeId);
-            return Ok(new ApiResponse<PhoneTypeResponse>
-            {
-                StatusCode = 200,
-                IsError = false,
-                Message = "Success",
-                Data = response
-            });
-
-        }
-
-        /// <summary>
         /// Add phone number to a hotel contact.
         /// <request>AddHotelContactPhoneNumberRequest</request>
         /// </summary>
@@ -342,7 +212,7 @@ namespace TravelAccomodationAPI.Controllers
         }
 
         /// <summary>
-        /// Delete a contact phone (soft delete).
+        /// Delete a contact phone.
         /// <request>phone_id</request>
         /// </summary>
         [HttpDelete("delete_hotel_contact_phone_number/{phone_id}")]
@@ -377,7 +247,7 @@ namespace TravelAccomodationAPI.Controllers
         }
 
         /// <summary>
-        /// Delete a contact email (soft delete).
+        /// Delete a contact email.
         /// <request>email_id</request>
         /// </summary>
         [HttpDelete("delete_hotel_contact_email/{email_id}")]
@@ -412,7 +282,7 @@ namespace TravelAccomodationAPI.Controllers
 
         /// <summary>
         /// update Aminity.
-        ///   <request>amenityId</request>
+        ///  <request>amenityId</request>
         /// <request>AddAmenitiesRequest</request>
         /// </summary>
         [HttpPut("update_aminity/{amenityId}")]
@@ -463,6 +333,9 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
+        /// <summary>
+        /// get_hotel_facility_categories.
+        /// </summary>
         [HttpGet("get_hotel_facility_categories")]
         public async Task<IActionResult> GetHotelFacilityCategories()
         {
@@ -476,7 +349,7 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-        // <summary>
+        /// <summary>
         /// Get  facility category by Id.
         /// <request>facility_CategoryId</request>
         /// </summary>
@@ -511,6 +384,10 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
+        /// <summary>
+        /// Add Banquet details.
+        /// <request>List<AddBanquestRequest></request>
+        /// </summary>
         [HttpPost("add_hotel_banquest")]
         public async Task<IActionResult> InsertBanquetWithFiles( List<AddBanquestRequest> request)
         {
@@ -552,6 +429,96 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
+        /// <summary>
+        /// Delete Banquest details on a hotel property.
+        /// <request>banquete_Id</request>
+        /// </summary>
+        [HttpDelete("delete_banquete_on_property/{banquete_Id}")]
+        public async Task<IActionResult> DeleteRestaurantsOnProperty(long banquete_Id)
+        {
+            var response = await _hotelMaster.DeleteBanquete(banquete_Id);
+
+            return StatusCode(204, new ApiResponse<dynamic>
+            {
+                StatusCode = 204,
+                IsError = false,
+                Message = response.Message
+            });
+        }
+
+
+        /// <summary>
+        /// Add hotel Files.
+        /// <request>List of AddHotelFilesRequest</request>
+        /// </summary>
+        [HttpPost("hotel-img-upload")]
+        public async Task<IActionResult> BulkUploadHotelFiles(
+             [FromForm] List<AddHotelFilesRequest> files)
+        {
+           
+            var result = await _hotelMaster
+                .BulkUploadHotelFilesAsync(files);
+
+            return StatusCode(201, new ApiResponse<string>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "File upload successfully"
+            });
+        }
+
+
+        /// <summary>
+        /// update hotel Files.
+        /// <request>AddHotelFilesRequest</request>
+        /// </summary>
+        [HttpPut("update-hotel-img")]
+        public async Task<IActionResult> UpdateHotelFile(long fileId,
+             [FromForm] AddHotelFilesRequest file)
+        {
+
+            var result = await _hotelMaster
+                .UpdateHotelFIle(fileId,file);
+
+            return StatusCode(204, new ApiResponse<string>
+            {
+                StatusCode = 204,
+                IsError = false,
+                Message = "File upload successfully"
+            });
+        }
+
+
+        /// <summary>
+        /// Delete Banquest details on a hotel property.
+        /// <request>banquete_Id</request>
+        /// </summary>
+        [HttpDelete("delete_hotel_file/{fileId}/")]
+        public async Task<IActionResult> DeleteRestaurantsOnProperty(long fileId, long hotelId)
+        {
+            var response = await _hotelMaster.DeleteHotelFile(fileId, hotelId);
+
+            return StatusCode(204, new ApiResponse<dynamic>
+            {
+                StatusCode = 204,
+                IsError = false,
+                Message = response.Message
+            });
+        }
+
+        [HttpGet("Hotel_files/{hotelId}/")]
+        public async Task<IActionResult> GetHotelFIles(long hotelId)
+        {
+            var response = await _hotelMaster.GetHotelFiles(hotelId);
+
+            return StatusCode(200, new ApiResponse<dynamic>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
 
     }
 }

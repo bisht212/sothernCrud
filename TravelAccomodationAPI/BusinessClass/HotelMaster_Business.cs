@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using System.Data;
 using System.Data.Common;
+using System.Net;
 using System.Transactions;
 using TravelAccomodationAPI.BusinessClass.Interface;
 using TravelAccomodationAPI.DataAccessClass.InterFaces;
@@ -102,44 +103,7 @@ namespace TravelAccomodationAPI.BusinessClass
             return response;
         }
 
-        public async Task<IEnumerable<GetVeg_NonVegResponse>> GetAll_Veg_Non_Veg()
-        {
-            var result = await _da.GetListAsync<GetVeg_NonVegResponse>(
-                Stored_Procedures.GET_ALL_VEG_NON_VEG);
-
-            return result;
-        }
-
-        public async Task<GetVeg_NonVegResponse> Get_Veg_Non_Veg(int Id)
-        {
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@veg_id", Id);
-            var result = await _da.GetAsync<GetVeg_NonVegResponse>(
-                  Stored_Procedures.GET_VEG_NON_VEG, parameters);
-
-            return result;
-        }
-
-        public async Task<IEnumerable<GetCuisine>> GetAll_Cuisine()
-        {
-            var result = await _da.GetListAsync<GetCuisine>(
-                 Stored_Procedures.GET_ALL_CUISINE);
-
-            return result;
-        }
-
-        public async Task<GetCuisine> Get_Cuisine(int Id)
-        {
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@cuisine_id", Id);
-            var result = await _da.GetAsync<GetCuisine>(
-                  Stored_Procedures.GET_VEG_NON_VEG, parameters);
-
-            return result;
-        }
-
+     
         //public async Task InsertRestaurantsWithFiles(List<AddRestaurantsOnPropertyRequest> request)
         //{
         //    //using var connection = _context.GetConnection();
@@ -453,38 +417,6 @@ namespace TravelAccomodationAPI.BusinessClass
 
             return result;
         }
-
-        public async Task AddPhoneType(AddPhoneType phoneTypeRequest)
-        {
-            var param = new DynamicParameters();
-            param.Add("@phonetype", phoneTypeRequest.PhoneType);
-
-            var result = await _da.ExecuteWithResponseAsync<dynamic>(
-                   Stored_Procedures.ADD_PHONE_TYPE,
-                   param
-               );
-        }
-
-        public async Task<IEnumerable<PhoneTypeResponse>> GetPhoneTypes()
-        {
-
-            IEnumerable<PhoneTypeResponse> result = await _da.GetListAsync<PhoneTypeResponse>(
-                Stored_Procedures.GET_PHONE_TYPES);
-
-            return result.ToList();
-        }
-
-        public async Task<PhoneTypeResponse> GetPhoneType(int phoneTypeId)
-        {
-            var param = new DynamicParameters();
-            param.Add("@phonetype_id", phoneTypeId);
-
-            PhoneTypeResponse result = await _da.GetAsync<PhoneTypeResponse>(
-               Stored_Procedures.GET_PHONE_TYPE, param);
-
-            return result;
-        }
-
         public async Task AddHotelContactPhoneNumber(AddHotelContactPhoneNumberRequest phoneNumberRequest)
         {
 
@@ -842,5 +774,147 @@ namespace TravelAccomodationAPI.BusinessClass
             }
         }
 
+
+        public async Task<dynamic> DeleteBanquete(long banquete_Id)
+        {
+            var param = new DynamicParameters();
+            param.Add("@banquet_id", banquete_Id);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.DELETE_BANQUET,
+                param
+            );
+
+            if (result?.Status <= 0)
+            {
+                throw new ApiException(result?.Message ?? "Error", 400);
+            }
+
+            return result;
+        }
+
+        public async Task<dynamic> BulkUploadHotelFilesAsync(List<AddHotelFilesRequest> files)
+        {
+
+            if (files == null || files.Count == 0)
+                throw new ArgumentException("No files received.");
+
+            var table = CreateHotelFilesDataTable();
+
+            foreach (var item in files)
+            {
+                if (item.FIle == null || item.FIle.Length == 0)
+                    throw new ArgumentException("No files received.");
+
+                // ✅ CENTRALIZED FILE UPLOAD
+                var filePath = await FileUploadCommon.UploadFileAsync(item.FIle);
+
+                table.Rows.Add(
+                    item.HotelId,
+                    item.FileName ?? item.FileName,
+                    item.Description,
+                    filePath,                 // ✅ Generated path
+                    "Admin"
+                );
+            }
+
+            if (table.Rows.Count == 0)
+                throw new InvalidOperationException("No valid files to insert.");
+
+            var parameters = new DynamicParameters();
+            parameters.Add(
+                "@HotelFiles",
+                table.AsTableValuedParameter("dbo.HotelFiles_TVP")
+            );
+
+            var response  = await _da.ExecuteWithResponseAsync<dynamic>(
+               Stored_Procedures.ADD_HOTEL_FILES,
+                parameters);
+
+
+            // 🔴 DUPLICATE FILE CASE
+            if (response.Status == 0)
+            {
+                throw new ApiException(response.Message, Convert.ToInt32(StatusCode.Badrequest));
+            }
+
+            return response;
+
+        }
+        public async Task<dynamic> UpdateHotelFIle(long fileId, AddHotelFilesRequest file)
+        {
+            if (file.FIle == null || file.FIle.Length == 0)
+                throw new ArgumentException("No files received.");
+
+            // ✅ CENTRALIZED FILE UPLOAD
+            var filePath = await FileUploadCommon.UploadFileAsync(file.FIle);
+
+            var parameters = new DynamicParameters();
+            parameters.Add("@FileId", fileId);
+            parameters.Add("@HotelId", file.HotelId);
+            parameters.Add("@FileName", file.FileName);
+            parameters.Add("@Description", file.Description);
+            parameters.Add("@FilePath", filePath);
+            parameters.Add("@UpdatedBy", "Admin");
+
+
+            var response = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.UPDATE_HOTEL_FILE,
+                parameters);
+
+            if (response.Status == 0)
+            {
+                throw new ApiException(response.Message, Convert.ToInt32(StatusCode.Badrequest));
+            }
+
+            return response; 
+        }
+
+        public async Task<dynamic> DeleteHotelFile(long fileId, long hotelId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@FileId", fileId);
+            parameters.Add("@HotelId", hotelId);
+            parameters.Add("@UpdatedBy", "Admin");
+
+            var response = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.DELETE_HOTEL_FILE,
+                parameters);
+
+            if (response.Status == 0)
+            {
+                throw new InvalidOperationException(response.Message);
+            }
+
+            return response;
+        }
+
+        public async Task<IEnumerable<GetHotelFilesResponse>> GetHotelFiles(long hotelId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@HotelId", hotelId);
+
+
+            var result = await _da.GetListAsync<GetHotelFilesResponse>(
+                Stored_Procedures.GET_HOTEL_FILES, parameters);
+
+            return result.ToList();
+        }
+
+        private DataTable CreateHotelFilesDataTable()
+        {
+            var table = new DataTable();
+
+            table.Columns.Add("HotelId", typeof(long));
+            table.Columns.Add("FileName", typeof(string));
+            table.Columns.Add("Description", typeof(string));
+            table.Columns.Add("FilePath", typeof(string));
+         //   table.Columns.Add("Created_At", typeof(DateTime));
+            table.Columns.Add("Created_By", typeof(string));
+
+            return table;
+        }
+
+      
     }
 }

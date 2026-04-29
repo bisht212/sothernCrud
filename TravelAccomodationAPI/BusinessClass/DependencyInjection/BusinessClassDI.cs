@@ -14,7 +14,8 @@ namespace TravelAccomodationAPI.BusinessClass.DependencyInjection
             services.AddScoped<IToken, Token>();
             services.AddScoped<IUsers, User>();
             services.AddScoped<ILoginUser, LoginUser>();
-            services.AddScoped<IHotelMaster_Business, HotelMaster_Business>(); 
+            services.AddScoped<IHotelMaster_Business, HotelMaster_Business>();
+            services.AddScoped<IMaster_Business, Master_Business>();
 
             return services;
         }

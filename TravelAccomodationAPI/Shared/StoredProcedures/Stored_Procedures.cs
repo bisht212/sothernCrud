@@ -30,7 +30,12 @@
         public static string GET_HOTEL_FACILITY_CATEGORIES = "usp_Hotel_Facility_Category_GetAll";
         public static string GET_HOTEL_FACILITY_CATEGORYID = "usp_Hotel_Facility_Category_GetById";
         public static string ADD_HOTEL_FACILITIES = "usp_HotelFacilities_Insert";
-        public static string UPLOAD_BANQUET_FILE_SP = "usp_Update_BanquetOnProperty"; 
+        public static string UPLOAD_BANQUET_FILE_SP = "usp_Update_BanquetOnProperty";
+        public static string DELETE_BANQUET = "usp_BanqueteOnProperty_Delete";
+        public static string ADD_HOTEL_FILES = "AddHotelFiles";
+        public static string UPDATE_HOTEL_FILE = "UpdateHotelFile";
+        public static string DELETE_HOTEL_FILE = "dbo.DeleteHotelFile"; 
+        public static string GET_HOTEL_FILES = "GetHotelImages";
 
     }
 }
