@@ -1,9 +1,12 @@
 ﻿using Dapper;
+using System.Data;
 using TravelAccomodationAPI.BusinessClass.Interface;
 using TravelAccomodationAPI.DataAccessClass.InterFaces;
+using TravelAccomodationAPI.ModelClass;
 using TravelAccomodationAPI.ModelClass.RequestModel;
 using TravelAccomodationAPI.ModelClass.ResponseModule;
 using TravelAccomodationAPI.Shared.DBHelper;
+using TravelAccomodationAPI.Shared.Enums;
 using TravelAccomodationAPI.Shared.StoredProcedures;
 
 namespace TravelAccomodationAPI.BusinessClass
@@ -87,6 +90,103 @@ namespace TravelAccomodationAPI.BusinessClass
             return result;
         }
 
+        public async Task AddAminity(AddAmenitiesRequest aminityRequest)
+        {
+            var parameters = new DynamicParameters();
 
+            parameters.Add("@AmenityName", aminityRequest.AmenityName, DbType.String);
+            parameters.Add("@SortOrder", aminityRequest.SortOrder, DbType.Int32);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                   Stored_Procedures.ADD_AMINITY,
+                   parameters
+               );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
+        }
+
+        public async Task UpdateAminity(int amenityId, AddAmenitiesRequest aminityRequest)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@AmenityId", amenityId, DbType.Int32);
+            parameters.Add("@AmenityName", aminityRequest.AmenityName, DbType.String);
+            parameters.Add("@SortOrder", aminityRequest.SortOrder, DbType.Int32);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.UPDATE_AMINITY,
+                parameters
+            );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
+        }
+
+        public async Task<IEnumerable<GetAminityResponse>> GetAminities()
+        {
+            var result = await _da.GetListAsync<GetAminityResponse>(
+               Stored_Procedures.GET_AMINITIES);
+
+            return result.ToList();
+        }
+
+        public async Task<GetAminityResponse> GetAminity(int aminityId)
+        {
+            var param = new DynamicParameters();
+            param.Add("@AmenityID", aminityId);
+
+            GetAminityResponse result = await _da.GetAsync<GetAminityResponse>(
+               Stored_Procedures.GET_AMINITY, param);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<GetRoomFacilityResponse>> GetHotelRoomFacilities(string? roomFacility)
+        {
+                 var parameters = new DynamicParameters();
+
+            parameters.Add("@roomFacilities_name", roomFacility, DbType.String);
+            var result = await _da.GetListAsync<GetRoomFacilityResponse>(
+               Stored_Procedures.GET_HOTEL_FACILITIES);
+
+            return result.ToList();
+        }
+
+        public async Task<GetRoomFacilityResponse> GetHotelRoomFacility(int roomFacilities_id)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@roomFacilities_id", roomFacilities_id);
+
+            var result = await _da.GetAsync<GetRoomFacilityResponse>(
+               Stored_Procedures.GET_HOTEL_FACILITY, parameters);
+
+            return result;
+        }
+
+        public Task AddRoomFacility(string roomFacilities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateRoomFacility(int roomFacilities_id, string roomFacilities)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteRoomFacility(int roomFacilities_id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,0 +1,501 @@
+2026-04-30 12:13:03.376 +05:30 [ERR] Error at /api/HotelMasters/add_restaurant_on_property | Controller HotelMasters | Action AddRestaurantsOnProperty | Method POST | Query  | TraceId 0HNL6FV3Q7V88:00000001
+TravelAccomodationAPI.ModelClass.ApiException: Restaurant already exists
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertRestaurantsWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 191
+   at TravelAccomodationAPI.Controllers.HotelMastersController.AddRestaurantsOnProperty(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 84
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 14:29:49.972 +05:30 [ERR] Error at /api/HotelMasters/add_restaurant_on_property | Controller HotelMasters | Action AddRestaurantsOnProperty | Method POST | Query  | TraceId 0HNL6H86HMG3I:00000004
+TravelAccomodationAPI.ModelClass.ApiException: Restaurant already exists
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertRestaurantsWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 203
+   at TravelAccomodationAPI.Controllers.HotelMastersController.AddRestaurantsOnProperty(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 101
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 14:38:09.618 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6IUVGD3D0:00000003
+Microsoft.Data.SqlClient.SqlException (0x80131904): Could not find stored procedure 'usp_Banquet_Insert'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__270_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 489
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 580
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:c53999aa-c34c-4c2d-95be-a0049fba2717
+Error Number:2812,State:62,Class:16
+2026-04-30 14:49:54.764 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6J65JMOSO:00000001
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'decimal' to 'int'. An explicit conversion exists (are you missing a cast?)
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 587
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 14:50:45.102 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6J65JMOSO:00000002
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'decimal' to 'int'. An explicit conversion exists (are you missing a cast?)
+   at CallSite.Target(Closure, CallSite, Object)
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 587
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 14:51:52.267 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6J65JMOSQ:00000001
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'decimal' to 'int'. An explicit conversion exists (are you missing a cast?)
+   at CallSite.Target(Closure, CallSite, Object)
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 587
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 14:52:49.396 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6J65JMOSQ:00000002
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'decimal' to 'int'. An explicit conversion exists (are you missing a cast?)
+   at CallSite.Target(Closure, CallSite, Object)
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 587
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 14:56:21.883 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6J65JMOSS:00000001
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'decimal' to 'int'. An explicit conversion exists (are you missing a cast?)
+   at CallSite.Target(Closure, CallSite, Object)
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 587
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 15:03:31.793 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6JCSBCE48:00000001
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'decimal' to 'int'. An explicit conversion exists (are you missing a cast?)
+   at CallSite.Target(Closure, CallSite, Object)
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute1[T0,TRet](CallSite site, T0 arg0)
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 587
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 15:03:58.342 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6JCSBCE4A:00000001
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'decimal' to 'int'. An explicit conversion exists (are you missing a cast?)
+   at CallSite.Target(Closure, CallSite, Object)
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 587
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 15:10:02.910 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6JCSBCE4C:00000001
+Microsoft.Data.SqlClient.SqlException (0x80131904): String or binary data would be truncated in table 'TravelPlatform_Accommodation.dbo.HotelBanquetFiles', column 'FilePath'. Truncated value: 'C:\SouthernTravel\Travel Accomadation\TravelAccomo'.
+The statement has been terminated.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.Connection.SqlConnectionInternal.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__251_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefinition command, Object param) in /_/Dapper/SqlMapper.Async.cs:line 663
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 609
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:f32602aa-ce81-421b-8ab7-e281a5bffaac
+Error Number:2628,State:1,Class:16
+2026-04-30 15:17:59.489 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6JCSBCE4E:00000001
+Microsoft.Data.SqlClient.SqlException (0x80131904): String or binary data would be truncated in table 'TravelPlatform_Accommodation.dbo.HotelBanquetFiles', column 'FilePath'. Truncated value: 'C:\SouthernTravel\Travel Accomadation\TravelAccomo'.
+The statement has been terminated.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.Connection.SqlConnectionInternal.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__251_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefinition command, Object param) in /_/Dapper/SqlMapper.Async.cs:line 663
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 609
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:f32602aa-ce81-421b-8ab7-e281a5bffaac
+Error Number:2628,State:1,Class:16
+2026-04-30 15:20:32.065 +05:30 [ERR] Error at /api/HotelMasters/add_hotel_banquest | Controller HotelMasters | Action InsertBanquetWithFiles | Method POST | Query  | TraceId 0HNL6JCSBCE4G:00000001
+Microsoft.Data.SqlClient.SqlException (0x80131904): String or binary data would be truncated in table 'TravelPlatform_Accommodation.dbo.HotelBanquetFiles', column 'FilePath'. Truncated value: 'C:\SouthernTravel\Travel Accomadation\TravelAccomo'.
+The statement has been terminated.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.Connection.SqlConnectionInternal.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.CompleteAsyncExecuteReader(Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalEndExecuteNonQuery(IAsyncResult asyncResult, Boolean isInternal, String endMethod)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryInternal(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.EndExecuteNonQueryAsync(IAsyncResult asyncResult)
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<InternalExecuteNonQueryAsync>b__251_1(IAsyncResult asyncResult)
+   at System.Threading.Tasks.TaskFactory`1.FromAsyncCoreLogic(IAsyncResult iar, Func`2 endFunction, Action`1 endAction, Task`1 promise, Boolean requiresSynchronization)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefinition command, Object param) in /_/Dapper/SqlMapper.Async.cs:line 663
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 609
+   at TravelAccomodationAPI.Controllers.HotelMastersController.InsertBanquetWithFiles(List`1 request) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 342
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:f32602aa-ce81-421b-8ab7-e281a5bffaac
+Error Number:2628,State:1,Class:16
+2026-04-30 17:14:25.649 +05:30 [ERR] Error at /api/HotelMasters/hotelMaster_save_as_draft | Controller HotelMasters | Action SaveAsDraftHotelMaster | Method PUT | Query ?hotelId=1&isDraft=true&updatedBy=admin | TraceId 0HNL6LLLBHUO2:00000003
+Microsoft.Data.SqlClient.SqlException (0x80131904): Procedure or function GetHotelImages has too many arguments specified.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__270_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 489
+   at TravelAccomodationAPI.DataAccessClass.DataAccessClass.ExecuteWithResponseAsync[T](String sp, DynamicParameters parameters, IDbTransaction transaction) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\DataAccessClass\DataAccessClass.cs:line 77
+   at TravelAccomodationAPI.BusinessClass.HotelMaster_Business.HotelMasterAsDraft(Int64 hotelId, Boolean isDraft, String updatedBy) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\HotelMaster_Business.cs:line 887
+   at TravelAccomodationAPI.Controllers.HotelMastersController.SaveAsDraftHotelMaster(Int64 hotelId, Boolean isDraft, String updatedBy) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\HotelMastersController.cs:line 497
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:f28b2126-a3ee-481b-b2f3-77c13f9730a2
+Error Number:8144,State:2,Class:16
+2026-04-30 17:16:34.437 +05:30 [ERR] Error at /api/HotelMasters/hotelMaster_save_as_draft | Controller HotelMasters | Action SaveAsDraftHotelMaster | Method PUT | Query ?hotelId=1&isDraft=true&updatedBy=admin | TraceId 0HNL6LO0941F6:00000003
+System.InvalidOperationException: Writing to the response body is invalid for responses with status code 204.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.FirstWriteAsyncInternal(ReadOnlyMemory`1 data, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.WritePipeAsync(ReadOnlyMemory`1 data, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseStream.WriteAsync(ReadOnlyMemory`1 source, CancellationToken cancellationToken)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+   at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter.WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|30_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+2026-04-30 17:16:34.602 +05:30 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Headers are read-only, response has already started.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.ThrowHeadersReadOnlyException()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders.Microsoft.AspNetCore.Http.IHeaderDictionary.set_ContentType(StringValues value)
+   at Microsoft.AspNetCore.Http.DefaultHttpResponse.set_ContentType(String value)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.HandleException(HttpContext context, Exception exception) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 87
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 25
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2026-04-30 17:16:34.620 +05:30 [ERR] Connection id "0HNL6LO0941F6", Request id "0HNL6LO0941F6:00000003": An unhandled exception was thrown by the application.
+System.InvalidOperationException: Headers are read-only, response has already started.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.ThrowHeadersReadOnlyException()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders.Microsoft.AspNetCore.Http.IHeaderDictionary.set_ContentType(StringValues value)
+   at Microsoft.AspNetCore.Http.DefaultHttpResponse.set_ContentType(String value)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.HandleException(HttpContext context, Exception exception) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 87
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 25
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+   at Microsoft.WebTools.BrowserLink.Net.BrowserLinkMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Watch.BrowserRefresh.BrowserRefreshMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2026-04-30 18:32:11.382 +05:30 [ERR] Error at /api/Masters/get_room_facility/1 | Controller Masters | Action GetRoomFacility | Method GET | Query  | TraceId 0HNL6N2I2IKK5:00000004
+Microsoft.Data.SqlClient.SqlException (0x80131904): Procedure or function 'usp_RoomFacilitiesMaster_GetById' expects parameter '@roomFacilities_id', which was not supplied.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__270_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 489
+   at TravelAccomodationAPI.DataAccessClass.DataAccessClass.GetAsync[T](String sp, DynamicParameters parameters, IDbTransaction transaction) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\DataAccessClass\DataAccessClass.cs:line 25
+   at TravelAccomodationAPI.BusinessClass.Master_Business.GetHotelRoomFacility(Int32 roomFacilities_id) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\Master_Business.cs:line 171
+   at TravelAccomodationAPI.Controllers.MastersController.GetRoomFacility(Int32 roomFacility) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\MastersController.cs:line 249
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:345e1304-2f3d-4ebc-beb3-9ceff322d658
+Error Number:201,State:4,Class:16
+2026-04-30 18:32:42.409 +05:30 [ERR] Error at /api/Masters/get_room_facility/1 | Controller Masters | Action GetRoomFacility | Method GET | Query  | TraceId 0HNL6N2I2IKK5:00000005
+Microsoft.Data.SqlClient.SqlException (0x80131904): Procedure or function 'usp_RoomFacilitiesMaster_GetById' expects parameter '@roomFacilities_id', which was not supplied.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__270_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 489
+   at TravelAccomodationAPI.DataAccessClass.DataAccessClass.GetAsync[T](String sp, DynamicParameters parameters, IDbTransaction transaction) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\DataAccessClass\DataAccessClass.cs:line 25
+   at TravelAccomodationAPI.BusinessClass.Master_Business.GetHotelRoomFacility(Int32 roomFacilities_id) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\Master_Business.cs:line 171
+   at TravelAccomodationAPI.Controllers.MastersController.GetRoomFacility(Int32 roomFacility) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\MastersController.cs:line 249
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:345e1304-2f3d-4ebc-beb3-9ceff322d658
+Error Number:201,State:4,Class:16
+2026-04-30 18:34:14.016 +05:30 [ERR] Error at /api/Masters/get_room_facility/1 | Controller Masters | Action GetRoomFacility | Method GET | Query  | TraceId 0HNL6N3OON0SP:00000004
+Microsoft.Data.SqlClient.SqlException (0x80131904): Procedure or function 'usp_RoomFacilitiesMaster_GetById' expects parameter '@roomFacilities_id', which was not supplied.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__270_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 489
+   at TravelAccomodationAPI.DataAccessClass.DataAccessClass.GetAsync[T](String sp, DynamicParameters parameters, IDbTransaction transaction) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\DataAccessClass\DataAccessClass.cs:line 25
+   at TravelAccomodationAPI.BusinessClass.Master_Business.GetHotelRoomFacility(Int32 roomFacilities_id) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\Master_Business.cs:line 171
+   at TravelAccomodationAPI.Controllers.MastersController.GetRoomFacility(Int32 roomFacility) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\MastersController.cs:line 249
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:681a6f76-5c48-4274-bf09-2f358c369f91
+Error Number:201,State:4,Class:16
+2026-04-30 18:34:42.410 +05:30 [ERR] Error at /api/Masters/get_room_facility/1 | Controller Masters | Action GetRoomFacility | Method GET | Query  | TraceId 0HNL6N3OON0SP:00000005
+Microsoft.Data.SqlClient.SqlException (0x80131904): Procedure or function 'usp_RoomFacilitiesMaster_GetById' expects parameter '@roomFacilities_id', which was not supplied.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__270_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 489
+   at TravelAccomodationAPI.DataAccessClass.DataAccessClass.GetAsync[T](String sp, DynamicParameters parameters, IDbTransaction transaction) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\DataAccessClass\DataAccessClass.cs:line 25
+   at TravelAccomodationAPI.BusinessClass.Master_Business.GetHotelRoomFacility(Int32 roomFacilities_id) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\Master_Business.cs:line 171
+   at TravelAccomodationAPI.Controllers.MastersController.GetRoomFacility(Int32 roomFacility) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\MastersController.cs:line 249
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:681a6f76-5c48-4274-bf09-2f358c369f91
+Error Number:201,State:4,Class:16
+2026-04-30 18:35:35.398 +05:30 [ERR] Error at /api/Masters/get_room_facility/1 | Controller Masters | Action GetRoomFacility | Method GET | Query  | TraceId 0HNL6N4DD82IN:00000004
+Microsoft.Data.SqlClient.SqlException (0x80131904): Procedure or function 'usp_RoomFacilitiesMaster_GetById' expects parameter '@roomFacilities_id', which was not supplied.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__270_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryRowAsync[T](IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 489
+   at TravelAccomodationAPI.DataAccessClass.DataAccessClass.GetAsync[T](String sp, DynamicParameters parameters, IDbTransaction transaction) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\DataAccessClass\DataAccessClass.cs:line 25
+   at TravelAccomodationAPI.BusinessClass.Master_Business.GetHotelRoomFacility(Int32 roomFacilities_id) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\BusinessClass\Master_Business.cs:line 171
+   at TravelAccomodationAPI.Controllers.MastersController.GetRoomFacility(Int32 roomFacility) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\Controllers\MastersController.cs:line 249
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at TravelAccomodationAPI.CustomeMiddleware.GlobalExceptionMiddleware.Invoke(HttpContext context) in C:\SouthernTravel\Travel Accomadation\TravelAccomodationAPI\CustomeMiddleware\GlobalExceptionMiddleware.cs:line 21
+ClientConnectionId:9a80c2ee-e6ca-4bad-8e4a-2ad0455b8acb
+Error Number:201,State:4,Class:16

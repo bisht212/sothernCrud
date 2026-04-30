@@ -61,7 +61,24 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-    
+        ///<summary>
+        ///Get resturants list 
+        ///<request>hotelid</request>
+        ///</summary>
+        [HttpGet("get_resturants/{hotelId}")]
+        public async Task<IActionResult> GetResturants(long hotelId) {
+
+            var response = await _hotelMaster.GetRestaurantDetail(hotelId);
+
+            return Ok(new ApiResponse<IEnumerable<GetRestaurantResponse>>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+
+        }
        
         /// <summary>
         /// Add restaurant details on a hotel property.
@@ -263,76 +280,7 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-        /// <summary>
-        /// Add Aminity.
-        /// <request>AddAmenitiesRequest</request>
-        /// </summary>
-        [HttpPost("add_aminity")]
-        public async Task<IActionResult> AddAminity(AddAmenitiesRequest aminityRequest) {
-            
-            await _hotelMaster.AddAminity(aminityRequest);
-
-            return StatusCode(201, new ApiResponse<dynamic>
-            {
-                StatusCode = 201,
-                IsError = false,
-                Message = "Success"
-            });
-        }
-
-        /// <summary>
-        /// update Aminity.
-        ///  <request>amenityId</request>
-        /// <request>AddAmenitiesRequest</request>
-        /// </summary>
-        [HttpPut("update_aminity/{amenityId}")]
-        public async Task<IActionResult> AddAminity(int amenityId, AddAmenitiesRequest aminityRequest)
-        {
-
-            await _hotelMaster.UpdateAminity(amenityId, aminityRequest);
-
-            return StatusCode(204, new ApiResponse<dynamic>
-            {
-                StatusCode = 204,
-                IsError = false,
-                Message = "Success"
-            });
-        }
-        
-        /// <summary>
-        /// Get List Aminites.
-        /// </summary>
-        [HttpGet("get_aminities")]
-        public async Task<IActionResult> GetAminities()
-        {
-            var response = await _hotelMaster.GetAminities();
-            return Ok(new ApiResponse<IEnumerable<GetAminityResponse>>
-            {
-                StatusCode = 200,
-                IsError = false,
-                Message = "Success",
-                Data = response
-            });
-        }
-
-        /// <summary>
-        /// Get  Aminity by Id.
-        /// <request>aminityId</request>
-        /// </summary>
-        [HttpGet("get_aminity/{aminityId}")]
-        public async Task<IActionResult> GetAminity(int aminityId)
-        {
-
-            var response = await _hotelMaster.GetAminity(aminityId);
-            return Ok(new ApiResponse<GetAminityResponse>
-            {
-                StatusCode = 200,
-                IsError = false,
-                Message = "Success",
-                Data = response
-            });
-        }
-
+      
         /// <summary>
         /// get_hotel_facility_categories.
         /// </summary>
@@ -384,12 +332,33 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
+
+        ///<summary>
+        ///Get banquest list 
+        ///<request>hotelid</request>
+        ///</summary>
+        [HttpGet("get_banquests/{hotelId}")]
+        public async Task<IActionResult> GetBanquets(long hotelId)
+        {
+
+            var response = await _hotelMaster.GetBanqueteByHotelId(hotelId);
+
+            return Ok(new ApiResponse<IEnumerable<GetBanquetResponse>>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+
+        }
+
         /// <summary>
         /// Add Banquet details.
         /// <request>List<AddBanquestRequest></request>
         /// </summary>
         [HttpPost("add_hotel_banquest")]
-        public async Task<IActionResult> InsertBanquetWithFiles( List<AddBanquestRequest> request)
+        public async Task<IActionResult> InsertBanquetWithFiles([FromForm] List<AddBanquestRequest> request)
         {
             await _hotelMaster.InsertBanquetWithFiles(request);
 
@@ -445,7 +414,22 @@ namespace TravelAccomodationAPI.Controllers
                 Message = response.Message
             });
         }
+        
+        ///<summary>
+        ///</symmary>
+        [HttpGet("Hotel_files/{hotelId}/")]
+        public async Task<IActionResult> GetHotelFIles(long hotelId)
+        {
+            var response = await _hotelMaster.GetHotelFiles(hotelId);
 
+            return StatusCode(200, new ApiResponse<dynamic>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
 
         /// <summary>
         /// Add hotel Files.
@@ -506,18 +490,19 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-        [HttpGet("Hotel_files/{hotelId}/")]
-        public async Task<IActionResult> GetHotelFIles(long hotelId)
+
+        [HttpPut("hotelMaster_save_as_draft")]
+        public async Task<IActionResult> SaveAsDraftHotelMaster(long hotelId, bool isDraft, string updatedBy)
         {
-            var response = await _hotelMaster.GetHotelFiles(hotelId);
+            var response = await _hotelMaster.HotelMasterAsDraft(hotelId, isDraft, updatedBy);
 
             return StatusCode(200, new ApiResponse<dynamic>
             {
                 StatusCode = 200,
                 IsError = false,
-                Message = "Success",
-                Data = response
+                Message = response.Message
             });
+
         }
 
     }

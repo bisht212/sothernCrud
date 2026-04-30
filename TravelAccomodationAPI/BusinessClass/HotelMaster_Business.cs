@@ -103,7 +103,18 @@ namespace TravelAccomodationAPI.BusinessClass
             return response;
         }
 
-     
+        public async Task<IEnumerable<GetRestaurantResponse>> GetRestaurantDetail(long hotelId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@HotelId", hotelId);
+
+
+            var result = await _da.GetListAsync<GetRestaurantResponse>(
+                Stored_Procedures.GET_RESTURANT_LIST, parameters);
+
+            return result.ToList();
+        }
+
         //public async Task InsertRestaurantsWithFiles(List<AddRestaurantsOnPropertyRequest> request)
         //{
         //    //using var connection = _context.GetConnection();
@@ -186,7 +197,7 @@ namespace TravelAccomodationAPI.BusinessClass
                                 commandType: CommandType.StoredProcedure
                             );
 
-                            int restaId = result.Status;
+                            int restaId = result?.Status ;
 
                             if (restaId <= 0)
                                 throw new ApiException("Restaurant already exists", Convert.ToInt32(StatusCode.Conflict));
@@ -196,7 +207,7 @@ namespace TravelAccomodationAPI.BusinessClass
                             {
                                 foreach (var file in item.ResturantImage)
                                 {
-                                    var filePath = await FileUploadCommon.UploadFileAsync(file);
+                                    var filePath = await FileUploadCommon.UploadFileAsync(file , item.Hotel_Id, restaId);
 
                                     var fileParam = new DynamicParameters();
                                     fileParam.Add("@HotelId", item.Hotel_Id);
@@ -226,6 +237,7 @@ namespace TravelAccomodationAPI.BusinessClass
                 }
             }
         }
+      
         public async Task UpdateRestaurantsWithFiles(int rest_Id, AddRestaurantsOnPropertyRequest request)
         {
             using (var connection = _context.GetConnection())
@@ -251,7 +263,7 @@ namespace TravelAccomodationAPI.BusinessClass
                         updateParam.Add("@In_room_dining_facility", request.In_room_dining_facility);
 
                         var result = await connection.QueryFirstOrDefaultAsync<dynamic>(
-                            "usp_Update_RestaurantOnProperty",
+                            Stored_Procedures.UPDATE_RESTURANTPROPERTY,
                             updateParam,
                             transaction,
                             commandType: CommandType.StoredProcedure
@@ -268,7 +280,7 @@ namespace TravelAccomodationAPI.BusinessClass
                         deleteParam.Add("@RestaurantId", restaurantId);
 
                         await connection.ExecuteAsync(
-                            "sp_ReplaceRestaurantFiles",
+                            Stored_Procedures.UPDATE_RESTURANTFILE,
                             deleteParam,
                             transaction,
                             commandType: CommandType.StoredProcedure
@@ -279,7 +291,7 @@ namespace TravelAccomodationAPI.BusinessClass
                         {
                             foreach (var file in request.ResturantImage)
                             {
-                                var filePath = await FileUploadCommon.UploadFileAsync(file);
+                                var filePath = await FileUploadCommon.UploadFileAsync(file, request.Hotel_Id, rest_Id);
                                 uploadedFiles.Add(filePath);
 
                                 var fileParam = new DynamicParameters();
@@ -371,7 +383,7 @@ namespace TravelAccomodationAPI.BusinessClass
             }
 
         }
-
+     
         public async Task UpdateHotelContacts(int ContactId, AddHotelContacts hotelContacts)
         {
 
@@ -417,6 +429,7 @@ namespace TravelAccomodationAPI.BusinessClass
 
             return result;
         }
+     
         public async Task AddHotelContactPhoneNumber(AddHotelContactPhoneNumberRequest phoneNumberRequest)
         {
 
@@ -502,69 +515,7 @@ namespace TravelAccomodationAPI.BusinessClass
 
             return result;
         }
-
-        public async Task AddAminity(AddAmenitiesRequest aminityRequest)
-        {
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@AmenityName", aminityRequest.AmenityName, DbType.String);
-            parameters.Add("@SortOrder", aminityRequest.SortOrder, DbType.Int32);
-
-            var result = await _da.ExecuteWithResponseAsync<dynamic>(
-                   Stored_Procedures.ADD_AMINITY,
-                   parameters
-               );
-
-            if (result.Status <= 0)
-            {
-                throw new ApiException(
-                    result.Message,
-                    Convert.ToInt32(StatusCode.Badrequest)
-                );
-            }
-        }
-
-        public async Task UpdateAminity(int amenityId, AddAmenitiesRequest aminityRequest)
-        {
-            var parameters = new DynamicParameters();
-
-            parameters.Add("@AmenityId", amenityId, DbType.Int32);
-            parameters.Add("@AmenityName", aminityRequest.AmenityName, DbType.String);
-            parameters.Add("@SortOrder", aminityRequest.SortOrder, DbType.Int32);
-
-            var result = await _da.ExecuteWithResponseAsync<dynamic>(
-                Stored_Procedures.UPDATE_AMINITY,
-                parameters
-            );
-
-            if (result.Status <= 0)
-            {
-                throw new ApiException(
-                    result.Message,
-                    Convert.ToInt32(StatusCode.Badrequest)
-                );
-            }
-        }
-
-        public async Task<IEnumerable<GetAminityResponse>> GetAminities()
-        {
-            var result = await _da.GetListAsync<GetAminityResponse>(
-               Stored_Procedures.GET_AMINITIES);
-
-            return result.ToList();
-        }
-
-        public async Task<GetAminityResponse> GetAminity(int aminityId)
-        {
-            var param = new DynamicParameters();
-            param.Add("@AmenityID", aminityId);
-
-            GetAminityResponse result = await _da.GetAsync<GetAminityResponse>(
-               Stored_Procedures.GET_AMINITY, param);
-
-            return result;
-        }
-
+       
         public async Task<IEnumerable<HotelFacilityCategoryResponse>> GetHotelFacilityCategory()
         {
             IEnumerable<HotelFacilityCategoryResponse> result = await _da.GetListAsync<HotelFacilityCategoryResponse>(
@@ -572,7 +523,7 @@ namespace TravelAccomodationAPI.BusinessClass
 
             return result.ToList();
         }
-
+        
         public async Task<HotelFacilityCategoryResponse> GetHotelFacilityCategoryByID(int facility_CategoryId)
         {
             var param = new DynamicParameters();
@@ -584,6 +535,18 @@ namespace TravelAccomodationAPI.BusinessClass
             return result;
         }
 
+        public async Task<IEnumerable<GetBanquetResponse>> GetBanqueteByHotelId(long hotelId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@HotelId", hotelId);
+
+
+            var result = await _da.GetListAsync<GetBanquetResponse>(
+                Stored_Procedures.GET_BANQUETS, parameters);
+
+            return result.ToList();
+        }
+     
         public async Task AddHotelFacility(List<AddHotelFacilitiesRequest> hotelFacilityRequest)
         {
 
@@ -603,7 +566,6 @@ namespace TravelAccomodationAPI.BusinessClass
             }
 
         }
-
 
         public async Task InsertBanquetWithFiles(List<AddBanquestRequest> request)
         {
@@ -648,7 +610,7 @@ namespace TravelAccomodationAPI.BusinessClass
                                 foreach (var file in item.BanquetImages)
                                 {
                                     var filePath =
-                                        await FileUploadCommon.UploadFileAsync(file);
+                                        await FileUploadCommon.UploadFileAsync(file, item.Hotel_Id, banquetId);
 
                                     var fileParam = new DynamicParameters();
                                     fileParam.Add("@HotelId", item.Hotel_Id);
@@ -731,7 +693,7 @@ namespace TravelAccomodationAPI.BusinessClass
                         {
                             foreach (var file in request.BanquetImages)
                             {
-                                var filePath = await FileUploadCommon.UploadFileAsync(file);
+                                var filePath = await FileUploadCommon.UploadFileAsync(file, request.Hotel_Id, updatedBanquetId);
                                 uploadedFiles.Add(filePath);
 
                                 var fileParam = new DynamicParameters();
@@ -773,7 +735,6 @@ namespace TravelAccomodationAPI.BusinessClass
                 }
             }
         }
-
 
         public async Task<dynamic> DeleteBanquete(long banquete_Id)
         {
@@ -841,13 +802,14 @@ namespace TravelAccomodationAPI.BusinessClass
             return response;
 
         }
+       
         public async Task<dynamic> UpdateHotelFIle(long fileId, AddHotelFilesRequest file)
         {
             if (file.FIle == null || file.FIle.Length == 0)
                 throw new ArgumentException("No files received.");
 
             // ✅ CENTRALIZED FILE UPLOAD
-            var filePath = await FileUploadCommon.UploadFileAsync(file.FIle);
+            var filePath = await FileUploadCommon.UploadFileAsync(file.FIle, file.HotelId);
 
             var parameters = new DynamicParameters();
             parameters.Add("@FileId", fileId);
@@ -915,6 +877,21 @@ namespace TravelAccomodationAPI.BusinessClass
             return table;
         }
 
-      
+        public async Task<dynamic> HotelMasterAsDraft(long hotelId, bool isDraft, string updatedBy)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@hotel_id", hotelId);
+            parameters.Add("@IsDraft", isDraft);
+            parameters.Add("@updated_by", updatedBy);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+               Stored_Procedures.HOTELMASTER_SAVE_AS_DRAFT, parameters);
+
+            if (result.Status <= 0) {
+                throw new ApiException(result.Message, Convert.ToInt32(StatusCode.Badrequest));
+            }
+
+            return result; 
+        }
     }
 }

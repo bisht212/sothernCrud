@@ -8,9 +8,12 @@
         public static string GET_ALL_VEG_NON_VEG = "dbo.usp_VegNonveg_GetAll";
         public static string GET_VEG_NON_VEG = "dbo.usp_VegNonveg_GetById";
         public static string GET_ALL_CUISINE = "dbo.usp_Cuisine_GetAll";
+        public static string GET_RESTURANT_LIST = "GetRestaurantsByHotelId";
         public static string ADD_BULK_RESTURANTPROPERTY = "usp_Bulk_RestaurantsOnProperty_Insert";
         public static string UPLOAD_FILE_SP = "sp_InsertFile";
-        public static string ADD_BULK_BANQUET = "usp_Banquet_Insert";
+        public static string UPDATE_RESTURANTPROPERTY = "usp_Update_RestaurantOnProperty";
+        public static string UPDATE_RESTURANTFILE = "sp_ReplaceRestaurantFiles"; 
+        public static string ADD_BULK_BANQUET = "usp_Insert_BanquetOnProperty";
         public static string UPLOAD_BANQUET_FILES = "sp_InsertBanquetFile";
         public static string ADD_BULK_HOTEL_CONTACTS = "usp_HotelsContacts_Insert";
         public static string UPDATE_BULK_HOTEL_CONTACTS = "usp_HotelsContacts_Update";
@@ -30,12 +33,21 @@
         public static string GET_HOTEL_FACILITY_CATEGORIES = "usp_Hotel_Facility_Category_GetAll";
         public static string GET_HOTEL_FACILITY_CATEGORYID = "usp_Hotel_Facility_Category_GetById";
         public static string ADD_HOTEL_FACILITIES = "usp_HotelFacilities_Insert";
+        public static string GET_BANQUETS = "usp_GetBanquetsByHotelId";
         public static string UPLOAD_BANQUET_FILE_SP = "usp_Update_BanquetOnProperty";
         public static string DELETE_BANQUET = "usp_BanqueteOnProperty_Delete";
         public static string ADD_HOTEL_FILES = "AddHotelFiles";
         public static string UPDATE_HOTEL_FILE = "UpdateHotelFile";
         public static string DELETE_HOTEL_FILE = "dbo.DeleteHotelFile"; 
         public static string GET_HOTEL_FILES = "GetHotelImages";
+        public static string HOTELMASTER_SAVE_AS_DRAFT = "usp_HotelsMaster_UpdateIsDraft";
 
+
+        //Master
+        public static string GET_HOTEL_FACILITIES = "usp_RoomFacilitiesMaster_Get";
+        public static string GET_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_GetById";
+        public static string ADD_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_Insert";
+        public static string UPDATE_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_Update";
+        public static string DELETE_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_Delete";
     }
 }

@@ -75,16 +75,12 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-        /// <summary>
-        /// Get Constant veg non veg by there Id
-        /// <request>cuisineId</request>
-        /// </summary>
-        [HttpGet("Get_Cuisine/{Id}")]
 
         /// <summary>
         /// Get cuisine details by cuisine Id.
         /// <request>Id</request>
         /// </summary>
+        [HttpGet("Get_Cuisine/{Id}")]
         public async Task<IActionResult> Get_Cuisine(int Id)
         {
 
@@ -151,6 +147,113 @@ namespace TravelAccomodationAPI.Controllers
 
         }
 
+        /// <summary>
+        /// Add Aminity.
+        /// <request>AddAmenitiesRequest</request>
+        /// </summary>
+        [HttpPost("add_aminity")]
+        public async Task<IActionResult> AddAminity(AddAmenitiesRequest aminityRequest)
+        {
 
+            await _master_Business.AddAminity(aminityRequest);
+
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Success"
+            });
+        }
+
+        /// <summary>
+        /// update Aminity.
+        ///  <request>amenityId</request>
+        /// <request>AddAmenitiesRequest</request>
+        /// </summary>
+        [HttpPut("update_aminity/{amenityId}")]
+        public async Task<IActionResult> AddAminity(int amenityId, AddAmenitiesRequest aminityRequest)
+        {
+
+            await _master_Business.UpdateAminity(amenityId, aminityRequest);
+
+            return StatusCode(204, new ApiResponse<dynamic>
+            {
+                StatusCode = 204,
+                IsError = false,
+                Message = "Success"
+            });
+        }
+
+        /// <summary>
+        /// Get List Aminites.
+        /// </summary>
+        [HttpGet("get_aminities")]
+        public async Task<IActionResult> GetAminities()
+        {
+            var response = await _master_Business.GetAminities();
+            return Ok(new ApiResponse<IEnumerable<GetAminityResponse>>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
+
+        /// <summary>
+        /// Get  Aminity by Id.
+        /// <request>aminityId</request>
+        /// </summary>
+        [HttpGet("get_aminity/{aminityId}")]
+        public async Task<IActionResult> GetAminity(int aminityId)
+        {
+
+            var response = await _master_Business.GetAminity(aminityId);
+            return Ok(new ApiResponse<GetAminityResponse>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
+
+
+
+        /// <summary>
+        /// GetRoomFacilities.
+        /// <request>roomFacility optional</request>
+        /// </summary>
+        [HttpGet("get_room_facilities")]
+        public async Task<IActionResult> GetRoomFacilities(string? roomFacility)
+        {
+
+            var response = await _master_Business.GetHotelRoomFacilities(roomFacility);
+            return Ok(new ApiResponse<IEnumerable<GetRoomFacilityResponse>>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
+
+        /// <summary>
+        /// GetRoomFacilities.
+        /// <request>roomFacility optional</request>
+        /// </summary>
+        [HttpGet("get_room_facility/{roomFacility}")]
+        public async Task<IActionResult> GetRoomFacility(int roomFacility)
+        {
+
+            var response = await _master_Business.GetHotelRoomFacility(roomFacility);
+            return Ok(new ApiResponse<GetRoomFacilityResponse>
+            {
+                StatusCode = 200,
+                IsError = false,
+                Message = "Success",
+                Data = response
+            });
+        }
     }
 }
