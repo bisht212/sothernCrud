@@ -31,6 +31,7 @@ namespace TravelAccomodationAPI.BusinessClass.Interface
         public Task<dynamic> DeleteHotelFile(long fileId, long hotelId);
         public Task<IEnumerable<GetHotelFilesResponse>> GetHotelFiles(long hotelId);
         public Task<dynamic> HotelMasterAsDraft(long hotelId, bool isDraft, string updatedBy);
+        public Task AddRoom(List<AddRoomDetailsRequest> roomDetailRequest);
 
     }
 }

@@ -5,9 +5,7 @@
         // Hotel master
         public static string ADD_HOTEL_MASTER = "dbo.AddHotelsMaster_SP";
         public static string GET_HOTEL_MASTER = "dbo.usp_HotelsMaster_Get";
-        public static string GET_ALL_VEG_NON_VEG = "dbo.usp_VegNonveg_GetAll";
-        public static string GET_VEG_NON_VEG = "dbo.usp_VegNonveg_GetById";
-        public static string GET_ALL_CUISINE = "dbo.usp_Cuisine_GetAll";
+      
         public static string GET_RESTURANT_LIST = "GetRestaurantsByHotelId";
         public static string ADD_BULK_RESTURANTPROPERTY = "usp_Bulk_RestaurantsOnProperty_Insert";
         public static string UPLOAD_FILE_SP = "sp_InsertFile";
@@ -42,12 +40,20 @@
         public static string GET_HOTEL_FILES = "GetHotelImages";
         public static string HOTELMASTER_SAVE_AS_DRAFT = "usp_HotelsMaster_UpdateIsDraft";
 
+        public static string ADD_HOTEL_ROOMS = "usp_AddRoom";
+        public static string ADD_ROOM_MEDIA = "usp_AddRoomMedia";
+        public static string ADD_ROOM_FACILITY = "usp_addRoomFacility";
 
         //Master
+        public static string GET_ALL_VEG_NON_VEG = "dbo.usp_VegNonveg_GetAll";
+        public static string GET_VEG_NON_VEG = "dbo.usp_VegNonveg_GetById";
+        public static string GET_ALL_CUISINE = "dbo.usp_Cuisine_GetAll";
         public static string GET_HOTEL_FACILITIES = "usp_RoomFacilitiesMaster_Get";
         public static string GET_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_GetById";
         public static string ADD_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_Insert";
         public static string UPDATE_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_Update";
         public static string DELETE_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_Delete";
+
+
     }
 }

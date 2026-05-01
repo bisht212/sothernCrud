@@ -893,5 +893,87 @@ namespace TravelAccomodationAPI.BusinessClass
 
             return result; 
         }
+
+        public async Task AddRoom(List<AddRoomDetailsRequest> roomDetailRequest)
+        {
+
+
+            using var connection = _context.GetConnection();
+            connection.Open();
+
+            using var transaction = connection.BeginTransaction();
+
+            try
+            {
+                if (roomDetailRequest.Count == 0)
+                {
+                    throw new ApiException("Field is required", Convert.ToInt32(StatusCode.Conflict));
+                }
+
+                foreach (var room in roomDetailRequest)
+                {
+                    // 1️⃣ Insert Room
+                    var roomParams = new DynamicParameters();
+                    roomParams.Add("@HotelId", room.RoomRequest.HotelId);
+                    roomParams.Add("@RoomCategoryName", room.RoomRequest.RoomCategoryName);
+                    roomParams.Add("@RoomDescription", room.RoomRequest.RoomDescription);
+                    roomParams.Add("@NoOfBeds", room.RoomRequest.NoOfBeds);
+                    roomParams.Add("@NoOfRooms", room.RoomRequest.NoOfRooms);
+
+                    int roomId = await connection.QueryFirstOrDefaultAsync<int>(
+                        Stored_Procedures.ADD_HOTEL_ROOMS,
+                        roomParams,
+                        transaction
+                    );
+
+                    // 2️⃣ Bulk Insert Room Media
+                    if (room.RoomMediaRequste != null && room.RoomMediaRequste.Any())
+                    {
+                        foreach (var media in room.RoomMediaRequste)
+                        {
+                            var filePath = await FileUploadCommon.UploadFileAsync(media.ImagePath, room.RoomRequest.HotelId, roomId);
+
+                            var mediaParams = new DynamicParameters();
+                            mediaParams.Add("@RoomId", roomId);
+                            mediaParams.Add("@ImageName", media.ImageName);
+                            mediaParams.Add("@Description", media.Description);
+                            mediaParams.Add("@ImageData", filePath);
+
+                            await connection.ExecuteAsync(
+                                Stored_Procedures.ADD_ROOM_MEDIA,
+                                mediaParams,
+                                transaction
+                            );
+                        }
+                    }
+
+                    // 3️⃣ Bulk Insert Room Facilities
+                    if (room.RoomFacilityRequeste != null && room.RoomFacilityRequeste.Any())
+                    {
+                        foreach (var facility in room.RoomFacilityRequeste)
+                        {
+                            var facilityParams = new DynamicParameters();
+                            facilityParams.Add("@RoomId", roomId);
+                            facilityParams.Add("@RoomFacilityId", facility.RoomFacilityId);
+
+                            await connection.ExecuteAsync(
+                                Stored_Procedures.ADD_ROOM_FACILITY,
+                                facilityParams,
+                                transaction
+                            );
+                        }
+                    }
+                }
+
+                transaction.Commit();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+
+
+        }
     }
 }

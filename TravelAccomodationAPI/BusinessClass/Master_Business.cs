@@ -174,19 +174,67 @@ namespace TravelAccomodationAPI.BusinessClass
             return result;
         }
 
-        public Task AddRoomFacility(string roomFacilities)
+        public async Task AddRoomFacility(string roomFacilities)
         {
-            throw new NotImplementedException();
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@roomFacilities", roomFacilities);
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                   Stored_Procedures.UPDATE_HOTEL_FACILITY,
+                   parameters
+               );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
         }
 
-        public Task UpdateRoomFacility(int roomFacilities_id, string roomFacilities)
+        public async Task UpdateRoomFacility(int roomFacilities_id, string roomFacilities)
         {
-            throw new NotImplementedException();
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@roomFacilities_id", roomFacilities_id);
+            parameters.Add("@roomFacilities", roomFacilities);
+          
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.UPDATE_HOTEL_FACILITY,
+                parameters
+            );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
         }
 
-        public Task DeleteRoomFacility(int roomFacilities_id)
+        public async Task DeleteRoomFacility(int roomFacilities_id)
         {
-            throw new NotImplementedException();
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@roomFacilities_id", roomFacilities_id);
+
+
+            var result = await _da.ExecuteWithResponseAsync<dynamic>(
+                Stored_Procedures.DELETE_HOTEL_FACILITY,
+                parameters
+            );
+
+            if (result.Status <= 0)
+            {
+                throw new ApiException(
+                    result.Message,
+                    Convert.ToInt32(StatusCode.Badrequest)
+                );
+            }
         }
     }
 }

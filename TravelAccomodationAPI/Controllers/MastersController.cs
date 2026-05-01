@@ -41,7 +41,6 @@ namespace TravelAccomodationAPI.Controllers
         /// Get Constant veg non veg by there Id
         /// <request>vegnonvegId</request>
         /// </summary>
-
         [HttpGet("Get_Veg_Non_Veg/{Id}")]
         public async Task<IActionResult> Get_Veg_Non_Veg(int Id)
         {
@@ -218,8 +217,6 @@ namespace TravelAccomodationAPI.Controllers
             });
         }
 
-
-
         /// <summary>
         /// GetRoomFacilities.
         /// <request>roomFacility optional</request>
@@ -253,6 +250,61 @@ namespace TravelAccomodationAPI.Controllers
                 IsError = false,
                 Message = "Success",
                 Data = response
+            });
+        }
+
+        /// <summary>
+        /// Add Room Facility.
+        /// <request>roomFacility</request>
+        /// </summary>
+        [HttpPost("add_room_facility")]
+        public async Task<IActionResult> AddRoomFacility(string roomFacilities)
+        {
+
+            await _master_Business.AddRoomFacility(roomFacilities);
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Room facility add successfully",
+               
+            });
+        }
+
+        /// <summary>
+        /// Update Room Facility.
+        /// <request>roomFacilities_id, roomFacility</request>
+        /// </summary>
+        [HttpPut("update-room-facility/{roomFacilities_id}")]
+        public async Task<IActionResult> UpdateRoomFacility(int roomFacilities_id, string roomFacilities)
+        {
+
+            await _master_Business.UpdateRoomFacility(roomFacilities_id, roomFacilities);
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Room facility updated successfully",
+
+            });
+        }
+
+        /// <summary>
+        /// Delte Room Facility.
+        /// <request>roomFacilities_id</request>
+        /// </summary>
+        /// 
+        [HttpDelete("delete-room-facility/{roomFacilities_id}")]
+        public async Task<IActionResult> DeleteRoomFacility(int roomFacilities_id)
+        {
+
+            await _master_Business.DeleteRoomFacility(roomFacilities_id);
+            return StatusCode(201, new ApiResponse<dynamic>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "Room facility Deleted successfully",
+
             });
         }
     }

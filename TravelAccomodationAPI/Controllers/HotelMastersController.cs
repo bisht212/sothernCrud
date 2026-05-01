@@ -505,5 +505,22 @@ namespace TravelAccomodationAPI.Controllers
 
         }
 
+        [HttpPost("add-room")]
+        public async Task<IActionResult> AddRoom(
+            [FromForm] List<AddRoomDetailsRequest> files)
+        {
+
+             await _hotelMaster
+                .AddRoom(files);
+
+            return StatusCode(201, new ApiResponse<string>
+            {
+                StatusCode = 201,
+                IsError = false,
+                Message = "File upload successfully"
+            });
+        }
+
+
     }
 }
