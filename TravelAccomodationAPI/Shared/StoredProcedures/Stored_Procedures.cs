@@ -55,5 +55,8 @@
         public static string DELETE_HOTEL_FACILITY = "usp_RoomFacilitiesMaster_Delete";
 
 
+        //Vendor Master
+        public static string ADD_VENDOR = "usp_VendorMaster_Save";
+
     }
 }
