@@ -57,6 +57,7 @@
 
         //Vendor Master
         public static string ADD_VENDOR = "usp_VendorMaster_Save";
-
+        public static string ADD_UPDATE_VENDOR = "usp_VendorContact_Save";
+        public static string ADD_UPDATE_VENDOR_FINANCLIAL_LIAGAL = "usp_VendorLegalFinancial_Save";
     }
 }

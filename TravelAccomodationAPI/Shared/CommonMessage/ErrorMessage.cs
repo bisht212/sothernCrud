@@ -8,6 +8,11 @@
 
         public const string RESTURANT_PROPERTY_ADD_FAILES = "Failed to add resturant propert";
 
-        public const string RESTAURANT_ALREADY_EXISTS = "Restaurant already exists for this hotel" ; 
+        public const string RESTAURANT_ALREADY_EXISTS = "Restaurant already exists for this hotel" ;
+
+
+        //Vendor 
+        public const string VENDOR_LegalFinancial_NOT_INSERTED = "Vendor leagal and financial detail not added";
+        public const string VENDOR_LegalFinancial_NOT_UPDATED = "Vendor leagal and financial detail not updated";
     }
 }

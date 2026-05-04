@@ -4,7 +4,7 @@
     {
         public int TenantId { get; set; }
 
-        public int? VendorId { get; set; }
+       // public int? VendorId { get; set; }
 
         public string Business_Name { get; set; }
 

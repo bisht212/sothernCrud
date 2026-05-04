@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Data.SqlClient;
 using Serilog;
 using System.Text.Json;
 using TravelAccomodationAPI.ModelClass;
@@ -46,6 +47,17 @@ namespace TravelAccomodationAPI.CustomeMiddleware
                 case ApiException apiEx:
                     statusCode = apiEx.StatusCode;
                     message = apiEx.Message;
+                    break;
+
+                case SqlException sqlEx:
+                    statusCode = sqlEx.Number switch
+                    {
+                        50001 => 400, // Bad Request
+                        50002 => 404, // Not Found
+                        50003 => 409,
+                        _ => 500      // Internal Server Error
+                    };
+                    message = sqlEx.Message;
                     break;
 
                 case KeyNotFoundException:
