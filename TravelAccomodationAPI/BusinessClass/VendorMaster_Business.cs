@@ -101,7 +101,6 @@ namespace TravelAccomodationAPI.BusinessClass
                 // ✅ Only runs if no exception
                 var isSuccess = param.Get<bool>("@IsSuccess");
 
-
             }
 
         }
@@ -164,6 +163,7 @@ namespace TravelAccomodationAPI.BusinessClass
             param.Add("@VendorLegalFinancialid", vendorLegalFinancialid);
             param.Add("@TenantID", financialRequest.TenantId);
             param.Add("@VendorID", financialRequest.VendorId);
+            param.Add("@legalName", financialRequest.legalName);
             param.Add("@bank_name", financialRequest.BankName);
             param.Add("@account_number", financialRequest.AccountNumber);
             param.Add("@ifsc_code", financialRequest.Ifsc_Code);
@@ -181,7 +181,7 @@ namespace TravelAccomodationAPI.BusinessClass
             if (result <= 0)
             {
                 throw new ApiException(
-                    string.Format(ErrorMessage.VENDOR_LegalFinancial_NOT_INSERTED), 400);
+                    string.Format(ErrorMessage.VENDOR_LegalFinancial_NOT_UPDATED), 400);
             }
             return result;
         }
